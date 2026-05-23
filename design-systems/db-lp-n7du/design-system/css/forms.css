@@ -1,0 +1,87 @@
+/* forms.css — Form elements */
+/* Pattern observed in CTA / waitlist sections of the original app */
+
+/* ── Form group — inline input + button ────────────────────────────────────── */
+.form-group {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Input ─────────────────────────────────────────────────────────────────── */
+.form-input {
+  flex: 1;
+  padding: 14px var(--space-5);           /* 14px 20px */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  outline: none;
+  transition: var(--transition-base);
+  min-width: 0;                           /* flex truncation fix */
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-input:focus {
+  border-color: var(--color-purple);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Textarea ──────────────────────────────────────────────────────────────── */
+.form-textarea {
+  width: 100%;
+  padding: 14px var(--space-5);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: var(--transition-base);
+}
+
+.form-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-textarea:focus {
+  border-color: var(--color-purple);
+}
+
+/* ── Label ─────────────────────────────────────────────────────────────────── */
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+/* ── Form group stacked (vertical) ────────────────────────────────────────── */
+.form-group-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Responsive: stack on mobile ───────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .form-group {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-group .btn {
+    width: 100%;
+  }
+}

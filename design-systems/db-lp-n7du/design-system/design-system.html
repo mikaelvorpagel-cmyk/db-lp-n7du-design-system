@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Design Builder — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="tokens.css"/>
+<link rel="stylesheet" href="css/base.css"/>
+<link rel="stylesheet" href="css/typography.css"/>
+<link rel="stylesheet" href="css/effects.css"/>
+<link rel="stylesheet" href="css/nav.css"/>
+<link rel="stylesheet" href="css/buttons.css"/>
+<link rel="stylesheet" href="css/cards.css"/>
+<link rel="stylesheet" href="css/badges.css"/>
+<link rel="stylesheet" href="css/forms.css"/>
+<link rel="stylesheet" href="css/layout.css"/>
+<link rel="stylesheet" href="css/marquee.css"/>
+<link rel="stylesheet" href="css/sections.css"/>
+<style>
+/* ── Design system doc layout ───────────────────────────────────────────── */
+.ds-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────────── */
+.ds-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.02);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-8) var(--space-4);
+  scrollbar-width: none;
+}
+
+.ds-sidebar::-webkit-scrollbar { display: none; }
+
+.ds-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-6);
+}
+
+.ds-sidebar-logo img { height: 28px; width: auto; }
+
+.ds-sidebar-logo span {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.ds-nav-group { margin-bottom: var(--space-6); }
+
+.ds-nav-label {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-2);
+  padding: 0 var(--space-2);
+}
+
+.ds-nav-item {
+  display: block;
+  padding: 6px var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-base);
+}
+
+.ds-nav-item:hover {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ds-nav-item.active {
+  color: var(--color-purple-light);
+  background: rgba(172, 75, 255, 0.08);
+}
+
+/* ── Main content ───────────────────────────────────────────────────────── */
+.ds-main {
+  margin-left: 220px;
+  padding: var(--space-12) var(--space-10);
+  max-width: 920px;
+  width: 100%;
+}
+
+.ds-section {
+  margin-bottom: var(--space-16);
+  scroll-margin-top: var(--space-8);
+}
+
+.ds-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-2);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.ds-section-subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-8);
+  line-height: var(--line-height-base);
+}
+
+.ds-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-16) 0;
+}
+
+/* ── Token display — color swatches ─────────────────────────────────────── */
+.ds-token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+
+.ds-swatch {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.ds-swatch-color { height: 64px; }
+
+.ds-swatch-info {
+  padding: var(--space-3);
+  background: var(--color-surface);
+}
+
+.ds-swatch-name {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-family: monospace;
+}
+
+.ds-swatch-value {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+.ds-swatch-use {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* ── Type scale ─────────────────────────────────────────────────────────── */
+.ds-type-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ds-type-meta { min-width: 180px; flex-shrink: 0; }
+
+.ds-type-token {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--color-purple-light);
+}
+
+.ds-type-value {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+/* ── Spacing ruler ──────────────────────────────────────────────────────── */
+.ds-space-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+}
+
+.ds-space-bar {
+  background: var(--color-purple);
+  height: 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.ds-space-meta {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--color-text-muted);
+}
+
+/* ── Component preview ──────────────────────────────────────────────────── */
+.ds-component { margin-bottom: var(--space-8); }
+
+.ds-component-label {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ds-preview {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  min-height: 100px;
+}
+
+.ds-preview.dark { background: #000000; }
+
+.ds-code {
+  background: #0a0a0a;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  color: #a0a0a0;
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.6;
+  position: relative;
+}
+
+.ds-copy-btn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-base);
+  font-family: var(--font-family);
+}
+
+.ds-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+}
+
+/* ── JS effect demos ────────────────────────────────────────────────────── */
+.ds-demo {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  margin-bottom: var(--space-4);
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ds-js-sig {
+  background: #0a0a0a;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  font-family: monospace;
+  font-size: 12px;
+  color: #a0a0a0;
+  margin-bottom: var(--space-3);
+  white-space: pre;
+}
+
+/* ── Border radius demo ─────────────────────────────────────────────────── */
+.ds-radius-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-4);
+}
+
+.ds-radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ds-radius-box {
+  width: 80px;
+  height: 80px;
+  background: rgba(147, 51, 234, 0.2);
+  border: 1px solid var(--color-purple);
+}
+
+.ds-radius-label {
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+<div class="ds-layout">
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- SIDEBAR                                                                   -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<aside class="ds-sidebar">
+  <div class="ds-sidebar-logo">
+    <img src="../assets/icons/logodb.svg" alt="Design Builder" onerror="this.style.display='none'"/>
+    <span>Design System</span>
+  </div>
+
+  <div class="ds-nav-group">
+    <div class="ds-nav-label">Fundação</div>
+    <a href="#cores" class="ds-nav-item">Cores</a>
+    <a href="#tipografia" class="ds-nav-item">Tipografia</a>
+    <a href="#espacamento" class="ds-nav-item">Espaçamento</a>
+    <a href="#raios" class="ds-nav-item">Border Radius</a>
+  </div>
+
+  <div class="ds-nav-group">
+    <div class="ds-nav-label">Componentes</div>
+    <a href="#nav" class="ds-nav-item">Navbar</a>
+    <a href="#badges" class="ds-nav-item">Badges</a>
+    <a href="#buttons" class="ds-nav-item">Botões</a>
+    <a href="#cards" class="ds-nav-item">Cards</a>
+    <a href="#cards-bento" class="ds-nav-item">↳ Bento</a>
+    <a href="#cards-showcase" class="ds-nav-item">↳ Showcase</a>
+    <a href="#cards-flip" class="ds-nav-item">↳ Flip</a>
+    <a href="#cards-testimonial" class="ds-nav-item">↳ Testimonial</a>
+    <a href="#forms" class="ds-nav-item">Forms</a>
+  </div>
+
+  <div class="ds-nav-group">
+    <div class="ds-nav-label">Efeitos</div>
+    <a href="#efeitos-css" class="ds-nav-item">CSS</a>
+    <a href="#efeitos-js" class="ds-nav-item">JS</a>
+  </div>
+
+  <div class="ds-nav-group">
+    <div class="ds-nav-label">Layout</div>
+    <a href="#layout-primitivas" class="ds-nav-item">Primitivas</a>
+    <a href="#layout-sections" class="ds-nav-item">Sections</a>
+    <a href="#layout-marquee" class="ds-nav-item">Marquee / Ticker</a>
+    <a href="#layout-feat" class="ds-nav-item">Feature Gallery</a>
+    <a href="#layout-bento" class="ds-nav-item">Bento Grid</a>
+  </div>
+</aside>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- MAIN                                                                      -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<main class="ds-main">
+
+<!-- ── CORES ──────────────────────────────────────────────────────────────── -->
+<section id="cores" class="ds-section">
+  <h2 class="ds-section-title">Cores</h2>
+  <p class="ds-section-subtitle">Paleta completa extraída do produto. Use sempre as variáveis CSS em vez de valores hardcoded.</p>
+
+  <div class="ds-token-grid">
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#05000a"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-bg</div>
+        <div class="ds-swatch-value">#05000a</div>
+        <div class="ds-swatch-use">Fundo base da página</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#0d0d0e"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-surface</div>
+        <div class="ds-swatch-value">#0d0d0e</div>
+        <div class="ds-swatch-use">Cards, superfícies elevadas</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#9333ea"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-purple</div>
+        <div class="ds-swatch-value">#9333ea</div>
+        <div class="ds-swatch-use">Accent principal, links ativos</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#ac4bff"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-purple-light</div>
+        <div class="ds-swatch-value">#ac4bff</div>
+        <div class="ds-swatch-use">Texto gradiente início</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#9810fa"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-purple-vivid</div>
+        <div class="ds-swatch-value">#9810fa</div>
+        <div class="ds-swatch-use">Hover em botões roxos</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#6e11b0"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-purple-dark</div>
+        <div class="ds-swatch-value">#6e11b0</div>
+        <div class="ds-swatch-use">Gradiente texto fim</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#c07eff"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-purple-400</div>
+        <div class="ds-swatch-value">#c07eff</div>
+        <div class="ds-swatch-use">Texto gradiente alt início</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#c600db"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-fuchsia</div>
+        <div class="ds-swatch-value">#c600db</div>
+        <div class="ds-swatch-use">Accent secundário</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#ffffff;border-bottom:1px solid #222"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-text</div>
+        <div class="ds-swatch-value">#ffffff</div>
+        <div class="ds-swatch-use">Texto primário</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:#9e9e9e"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-text-muted</div>
+        <div class="ds-swatch-value">#9e9e9e</div>
+        <div class="ds-swatch-use">Texto secundário, placeholders</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:rgba(255,255,255,0.05)"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-border</div>
+        <div class="ds-swatch-value">rgba(255,255,255,0.05)</div>
+        <div class="ds-swatch-use">Bordas sutis (cards, nav)</div>
+      </div>
+    </div>
+    <div class="ds-swatch">
+      <div class="ds-swatch-color" style="background:rgba(255,255,255,0.10)"></div>
+      <div class="ds-swatch-info">
+        <div class="ds-swatch-name">--color-border-soft</div>
+        <div class="ds-swatch-value">rgba(255,255,255,0.10)</div>
+        <div class="ds-swatch-use">Bordas de inputs e hover</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── TIPOGRAFIA ─────────────────────────────────────────────────────────── -->
+<section id="tipografia" class="ds-section">
+  <h2 class="ds-section-title">Tipografia</h2>
+  <p class="ds-section-subtitle">Inter em todos os pesos. Valores extraídos dos inline styles e classes Tailwind do produto original.</p>
+
+  <div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-2xl</div>
+        <div class="ds-type-value">48px · weight 300 ou 700</div>
+      </div>
+      <span style="font-size:48px;font-weight:300;letter-spacing:-0.025em;line-height:1.25">Hero Title</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-xl</div>
+        <div class="ds-type-value">32px · weight 700</div>
+      </div>
+      <span style="font-size:32px;font-weight:700;letter-spacing:-0.025em">Section Title</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-lg</div>
+        <div class="ds-type-value">24px · weight 600</div>
+      </div>
+      <span style="font-size:24px;font-weight:600">Card Title</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-md</div>
+        <div class="ds-type-value">18px · weight 400</div>
+      </div>
+      <span style="font-size:18px;font-weight:400">Body text — descrição de seção ou parágrafo longo</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-base</div>
+        <div class="ds-type-value">15px · weight 500</div>
+      </div>
+      <span style="font-size:15px;font-weight:500">Link de nav, texto de botão, label</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-sm</div>
+        <div class="ds-type-value">14px · weight 400</div>
+      </div>
+      <span style="font-size:14px;color:#9e9e9e">Texto auxiliar, caption, feature card desc</span>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta">
+        <div class="ds-type-token">--font-size-xs</div>
+        <div class="ds-type-value">13px · weight 600</div>
+      </div>
+      <span style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#9e9e9e">LABEL / BADGE / SECTION TAG</span>
+    </div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── ESPAÇAMENTO ────────────────────────────────────────────────────────── -->
+<section id="espacamento" class="ds-section">
+  <h2 class="ds-section-title">Espaçamento</h2>
+  <p class="ds-section-subtitle">Escala de 4px (Tailwind --spacing: 0.25rem). Use os tokens — sem valores arbitrários.</p>
+
+  <div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:4px"></div><span class="ds-space-meta">--space-1 · 4px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:8px"></div><span class="ds-space-meta">--space-2 · 8px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:12px"></div><span class="ds-space-meta">--space-3 · 12px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:16px"></div><span class="ds-space-meta">--space-4 · 16px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:20px"></div><span class="ds-space-meta">--space-5 · 20px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:24px"></div><span class="ds-space-meta">--space-6 · 24px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:32px"></div><span class="ds-space-meta">--space-8 · 32px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:40px"></div><span class="ds-space-meta">--space-10 · 40px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:48px"></div><span class="ds-space-meta">--space-12 · 48px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:64px"></div><span class="ds-space-meta">--space-16 · 64px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:80px"></div><span class="ds-space-meta">--space-20 · 80px</span></div>
+    <div class="ds-space-row"><div class="ds-space-bar" style="width:96px"></div><span class="ds-space-meta">--space-24 · 96px</span></div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── BORDER RADIUS ──────────────────────────────────────────────────────── -->
+<section id="raios" class="ds-section">
+  <h2 class="ds-section-title">Border Radius</h2>
+  <p class="ds-section-subtitle">Do rounded-lg (8px) ao rounded-full (9999px). Aplicados consistentemente em cards, botões e nav.</p>
+
+  <div class="ds-radius-grid">
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:8px"></div>
+      <div class="ds-radius-label">--radius-sm<br/>8px</div>
+    </div>
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:12px"></div>
+      <div class="ds-radius-label">--radius-md<br/>12px</div>
+    </div>
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:16px"></div>
+      <div class="ds-radius-label">--radius-lg<br/>16px</div>
+    </div>
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:20px"></div>
+      <div class="ds-radius-label">--radius-xl<br/>20px (nav)</div>
+    </div>
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:24px"></div>
+      <div class="ds-radius-label">--radius-2xl<br/>24px</div>
+    </div>
+    <div class="ds-radius-item">
+      <div class="ds-radius-box" style="border-radius:9999px"></div>
+      <div class="ds-radius-label">--radius-full<br/>9999px (pills)</div>
+    </div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────────────── -->
+<section id="nav" class="ds-section">
+  <h2 class="ds-section-title">Navbar</h2>
+  <p class="ds-section-subtitle">Glassmorphism. Fixa no topo com scroll hide/show. Link ativo em roxo.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Preview — simulação da navbar real</div>
+    <div class="ds-preview dark" style="padding:var(--space-6);min-height:80px;position:relative;background:linear-gradient(135deg,#1a0030,#000);">
+      <nav style="display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:none;width:100%;max-width:680px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.4);">
+        <div style="display:flex;align-items:center;gap:12px;padding-left:12px;padding-right:8px;">
+          <img src="../assets/icons/logodb.svg" alt="DB" style="height:32px;width:auto;" onerror="this.style.display='none'"/>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(28,28,28,0.5);border:1px solid rgba(255,255,255,0.05);border-radius:9999px;padding:6px;">
+          <a href="#" style="padding:8px 16px;border-radius:9999px;font-size:15px;font-weight:500;text-decoration:none;background:#9333ea;color:white;transition:all 0.3s ease;">Home</a>
+          <a href="#" style="padding:8px 16px;border-radius:9999px;font-size:15px;font-weight:500;text-decoration:none;color:#9e9e9e;transition:all 0.3s ease;">Galeria</a>
+          <a href="#" style="padding:8px 16px;border-radius:9999px;font-size:15px;font-weight:500;text-decoration:none;color:#9e9e9e;transition:all 0.3s ease;">Builders</a>
+          <a href="#" style="padding:8px 16px;border-radius:9999px;font-size:15px;font-weight:500;text-decoration:none;color:#9e9e9e;transition:all 0.3s ease;">Funcionalidades</a>
+        </div>
+        <button style="display:flex;align-items:center;gap:8px;background:white;color:black;font-weight:600;border-radius:9999px;padding:14px 24px;font-size:15px;border:none;cursor:pointer;margin-right:4px;transition:background-color 0.3s ease;white-space:nowrap;">
+          Lista de Espera
+          <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </nav>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;nav class="nav"&gt;
+  &lt;div class="nav-logo-wrap"&gt;
+    &lt;img src="assets/icons/logodb.svg" class="nav-logo" alt="DB"/&gt;
+  &lt;/div&gt;
+  &lt;div class="nav-links"&gt;
+    &lt;a href="#home" class="nav-link active"&gt;Home&lt;/a&gt;
+    &lt;a href="#galeria" class="nav-link"&gt;Galeria&lt;/a&gt;
+    &lt;a href="#builders" class="nav-link"&gt;Builders&lt;/a&gt;
+    &lt;a href="#funcionalidades" class="nav-link"&gt;Funcionalidades&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;button class="nav-cta"&gt;
+    Lista de Espera &lt;i data-lucide="arrow-right"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+&lt;/nav&gt;
+
+&lt;script src="js/nav-behavior.js"&gt;&lt;/script&gt;
+&lt;script&gt;initNavBehavior()&lt;/script&gt;</div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── BADGES ─────────────────────────────────────────────────────────────── -->
+<section id="badges" class="ds-section">
+  <h2 class="ds-section-title">Badges</h2>
+  <p class="ds-section-subtitle">Pills para labels de seção, status e feature tags.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Variantes</div>
+    <div class="ds-preview">
+      <span class="badge">Sem prompts</span>
+      <span class="badge">Mais escala</span>
+      <span class="badge">Baixo custo</span>
+      <span class="badge badge-purple">✦ Novo</span>
+      <span class="badge badge-white">Beta</span>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;span class="badge"&gt;Sem prompts&lt;/span&gt;
+&lt;span class="badge badge-purple"&gt;✦ Novo&lt;/span&gt;
+&lt;span class="badge badge-white"&gt;Beta&lt;/span&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Badge check — hero feature list</div>
+    <div class="ds-preview dark">
+      <div class="badge-check">
+        <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24" width="14"><path d="M20 6 9 17l-5-5"/></svg>
+        Sem prompts
+      </div>
+      <div class="badge-check">
+        <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24" width="14"><path d="M20 6 9 17l-5-5"/></svg>
+        Mais escala
+      </div>
+      <div class="badge-check">
+        <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 24 24" width="14"><path d="M20 6 9 17l-5-5"/></svg>
+        Baixo custo
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="badge-check"&gt;
+  &lt;i data-lucide="check"&gt;&lt;/i&gt; Sem prompts
+&lt;/div&gt;</div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── BOTÕES ─────────────────────────────────────────────────────────────── -->
+<section id="buttons" class="ds-section">
+  <h2 class="ds-section-title">Botões</h2>
+  <p class="ds-section-subtitle">Três variantes + shimmer. Todos com border-radius full e hover state definido.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Primário — fundo branco, texto preto</div>
+    <div class="ds-preview dark">
+      <button class="btn btn-primary btn-lg">ENTRE NA LISTA DE ESPERA</button>
+      <button class="btn btn-primary btn-md">Lista de Espera</button>
+      <button class="btn btn-primary btn-sm">Saiba mais</button>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;button class="btn btn-primary btn-lg"&gt;ENTRE NA LISTA DE ESPERA&lt;/button&gt;
+&lt;button class="btn btn-primary btn-md"&gt;Lista de Espera&lt;/button&gt;
+&lt;button class="btn btn-primary btn-sm"&gt;Saiba mais&lt;/button&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Roxo — accent principal</div>
+    <div class="ds-preview dark">
+      <button class="btn btn-purple btn-lg">Começar agora</button>
+      <button class="btn btn-purple btn-md">Explorar galeria</button>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;button class="btn btn-purple btn-lg"&gt;Começar agora&lt;/button&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Outline — borda sutil, hover roxo</div>
+    <div class="ds-preview dark">
+      <button class="btn btn-outline btn-md">Ver galeria completa</button>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;button class="btn btn-outline btn-md"&gt;Ver galeria completa&lt;/button&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Shimmer — animação de brilho diagonal (hero CTA)</div>
+    <div class="ds-preview dark">
+      <button class="btn btn-shimmer btn-lg">
+        <i data-lucide="log-in" style="width:16px;height:16px"></i>
+        ENTRE NA LISTA DE ESPERA
+      </button>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;button class="btn btn-shimmer btn-lg"&gt;
+  &lt;i data-lucide="log-in"&gt;&lt;/i&gt;
+  ENTRE NA LISTA DE ESPERA
+&lt;/button&gt;</div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── CARDS ──────────────────────────────────────────────────────────────── -->
+<section id="cards" class="ds-section">
+  <h2 class="ds-section-title">Cards</h2>
+  <p class="ds-section-subtitle">Quatro tipos. Hover com elevação e glow roxo.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Card de imagem — aspect 3/4, hero e galeria</div>
+    <div class="ds-preview dark" style="gap:var(--space-4);align-items:flex-start">
+      <div class="card-image" style="width:120px">
+        <img src="../assets/images/img_451.jpg" alt="Design" onerror="this.parentElement.style.background='rgba(147,51,234,0.2)'"/>
+      </div>
+      <div class="card-image" style="width:120px">
+        <img src="../assets/images/img_391.webp" alt="Design" onerror="this.parentElement.style.background='rgba(152,16,250,0.2)'"/>
+      </div>
+      <div class="card-image" style="width:120px">
+        <img src="../assets/images/img_038.webp" alt="Design" onerror="this.parentElement.style.background='rgba(110,17,176,0.2)'"/>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-image"&gt;
+  &lt;img src="assets/images/design.jpg" alt="Design"/&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Card de feature — ícone + título + descrição</div>
+    <div class="ds-preview" style="align-items:stretch;gap:var(--space-4)">
+      <div class="card-feature" style="flex:1;max-width:220px">
+        <i data-lucide="zap" class="card-feature-icon"></i>
+        <h3 class="card-feature-title">Sem prompts</h3>
+        <p class="card-feature-desc">Crie designs incríveis sem escrever um único prompt complexo.</p>
+      </div>
+      <div class="card-feature" style="flex:1;max-width:220px">
+        <i data-lucide="layers" class="card-feature-icon"></i>
+        <h3 class="card-feature-title">Mais escala</h3>
+        <p class="card-feature-desc">Dezenas de variações instantâneas para todas as demandas do digital.</p>
+      </div>
+      <div class="card-feature" style="flex:1;max-width:220px">
+        <i data-lucide="trending-down" class="card-feature-icon"></i>
+        <h3 class="card-feature-title">Baixo custo</h3>
+        <p class="card-feature-desc">Reduza o custo por design em até 90% sem perder qualidade.</p>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-feature"&gt;
+  &lt;i data-lucide="zap" class="card-feature-icon"&gt;&lt;/i&gt;
+  &lt;h3 class="card-feature-title"&gt;Sem prompts&lt;/h3&gt;
+  &lt;p class="card-feature-desc"&gt;Crie designs incríveis sem escrever prompts.&lt;/p&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Card de stat — número gradiente + label</div>
+    <div class="ds-preview" style="gap:var(--space-12)">
+      <div class="card-stat">
+        <div class="card-stat-number">10×</div>
+        <div class="card-stat-label">Mais rápido</div>
+      </div>
+      <div class="card-stat">
+        <div class="card-stat-number">90%</div>
+        <div class="card-stat-label">Menos custo</div>
+      </div>
+      <div class="card-stat">
+        <div class="card-stat-number">∞</div>
+        <div class="card-stat-label">Variações</div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-stat"&gt;
+  &lt;div class="card-stat-number"&gt;10×&lt;/div&gt;
+  &lt;div class="card-stat-label"&gt;Mais rápido&lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Card de testimonial — quote + avatar + nome</div>
+    <div class="ds-preview" style="align-items:stretch">
+      <div class="card-testimonial" style="max-width:320px">
+        <p class="card-testimonial-quote">"O Design Builder mudou completamente como produzo peças para clientes. O que levava dias agora sai em minutos."</p>
+        <div class="card-testimonial-author">
+          <div class="card-testimonial-avatar" style="background:rgba(147,51,234,0.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--color-purple-light);">M</div>
+          <div>
+            <div class="card-testimonial-name">Mikael V.</div>
+            <div class="card-testimonial-role">Designer Sênior</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-testimonial"&gt;
+  &lt;p class="card-testimonial-quote"&gt;"Depoimento aqui."&lt;/p&gt;
+  &lt;div class="card-testimonial-author"&gt;
+    &lt;div class="card-testimonial-avatar"&gt;
+      &lt;img src="avatar.jpg" alt="Nome"/&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="card-testimonial-name"&gt;Nome&lt;/div&gt;
+      &lt;div class="card-testimonial-role"&gt;Cargo&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── FORMS ──────────────────────────────────────────────────────────────── -->
+<section id="forms" class="ds-section">
+  <h2 class="ds-section-title">Forms</h2>
+  <p class="ds-section-subtitle">Input dark com botão inline. Padrão da seção CTA / waitlist.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Form group — email + submit inline</div>
+    <div class="ds-preview dark">
+      <div class="form-group" style="width:100%;max-width:480px">
+        <input type="email" class="form-input" placeholder="Seu melhor e-mail"/>
+        <button class="btn btn-primary btn-md">Entrar na lista</button>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="form-group"&gt;
+  &lt;input type="email" class="form-input" placeholder="Seu melhor e-mail"/&gt;
+  &lt;button class="btn btn-primary btn-md"&gt;Entrar na lista&lt;/button&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Input solo com label</div>
+    <div class="ds-preview dark" style="flex-direction:column;align-items:flex-start">
+      <div style="width:100%;max-width:360px">
+        <label class="form-label">Nome completo</label>
+        <input type="text" class="form-input" placeholder="Seu nome" style="border-radius:var(--radius-md)"/>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;label class="form-label"&gt;Nome completo&lt;/label&gt;
+&lt;input type="text" class="form-input" placeholder="Seu nome"/&gt;</div>
+  </div>
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── EFEITOS CSS ─────────────────────────────────────────────────────────── -->
+<style>
+.ds-effect{display:grid;grid-template-columns:1fr 260px;gap:var(--space-6);margin-bottom:var(--space-8);align-items:start}
+.ds-effect-info{display:flex;flex-direction:column;gap:var(--space-3)}
+.ds-effect-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;position:sticky;top:var(--space-6)}
+.ds-effect-card-label{font-size:11px;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border);background:rgba(255,255,255,0.02)}
+.ds-effect-card-body{padding:var(--space-5);display:flex;align-items:center;justify-content:center;min-height:160px;position:relative;overflow:hidden}
+@media(max-width:800px){.ds-effect{grid-template-columns:1fr}}
+</style>
+
+<section id="efeitos-css" class="ds-section">
+<h2 class="ds-section-title">Efeitos CSS</h2>
+<p class="ds-section-subtitle">Classes utilitárias reutilizáveis. Sem JS necessário.</p>
+
+<!-- glass -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.glass — Glassmorphism</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Fundo semitransparente com blur. Usado na navbar e overlays. Requer um fundo visível atrás do elemento para o efeito aparecer.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="glass" style="border-radius:var(--radius-xl);border:1px solid var(--color-border);"&gt;
+  Conteúdo
+&lt;/div&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview</div>
+    <div class="ds-effect-card-body" style="background:linear-gradient(135deg,#2a0050,#0a001a,#001030)">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(147,51,234,0.4),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(198,0,219,0.3),transparent 60%)"></div>
+      <div class="glass" style="padding:var(--space-4) var(--space-5);border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,0.12);position:relative;z-index:1;text-align:center">
+        <div style="font-size:var(--font-size-sm);font-weight:600;margin-bottom:4px">Navbar / Overlay</div>
+        <div style="font-size:12px;color:var(--color-text-muted)">backdrop-filter: blur(20px)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- text-gradient -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.text-gradient — Gradiente roxo no texto</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Aplica <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">background-clip:text</code> com o gradiente roxo do produto. Use em headings e números de destaque.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;span class="text-gradient" style="font-size:48px;font-weight:700"&gt;
+  Design com IA
+&lt;/span&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-2)">
+      <span class="text-gradient" style="font-size:36px;font-weight:700;line-height:1.1;text-align:center">Design<br>com IA</span>
+      <span style="font-size:11px;color:var(--color-text-muted);font-family:monospace">#ac4bff → #9810fa → #6e11b0</span>
+    </div>
+  </div>
+</div>
+
+<!-- text-gradient-alt -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.text-gradient-alt — Branco para roxo claro</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Variante mais sutil, começa em branco e termina em roxo claro. Ideal para subtítulos de hero.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;span class="text-gradient-alt" style="font-size:48px;font-weight:300"&gt;
+  Tudo em segundos
+&lt;/span&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-2)">
+      <span class="text-gradient-alt" style="font-size:28px;font-weight:300;line-height:1.2;text-align:center">Tudo em<br>segundos</span>
+      <span style="font-size:11px;color:var(--color-text-muted);font-family:monospace">#ffffff → #c07eff</span>
+    </div>
+  </div>
+</div>
+
+<!-- glow-purple -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.glow-purple — Orb de luz roxa</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Pseudo-elemento <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">::before</code> com blur de 80px cria um orb de luz roxo atrás do conteúdo. Decorativo, não bloqueia interação.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="glow-purple"&gt;
+  Conteúdo com glow atrás
+&lt;/div&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview</div>
+    <div class="ds-effect-card-body">
+      <div style="position:relative;z-index:1;text-align:center">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;background:rgba(147,51,234,0.35);border-radius:50%;filter:blur(50px);pointer-events:none"></div>
+        <div style="position:relative;z-index:2;font-size:var(--font-size-sm);font-weight:600">Conteúdo</div>
+        <div style="position:relative;z-index:2;font-size:11px;color:var(--color-text-muted);margin-top:4px">rgba(147,51,234,0.35) blur(80px)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- shimmer button -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.btn-shimmer — Brilho deslizante no botão</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Pseudo-elemento animado com gradiente branco inclinado (<code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">skewX(-25deg)</code>) percorre o botão em loop de 3s. CSS puro, sem JS.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;button class="btn btn-primary btn-lg btn-shimmer"&gt;
+  ENTRE NA LISTA DE ESPERA
+&lt;/button&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview — ao vivo</div>
+    <div class="ds-effect-card-body">
+      <button class="btn btn-primary btn-md btn-shimmer">ENTRE NA LISTA</button>
+    </div>
+  </div>
+</div>
+
+<!-- reveal -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.reveal + .visible — Fade-in de entrada</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Elementos com <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.reveal</code> começam invisíveis (opacity 0, translateY 24px). O JS adiciona <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.visible</code> ao entrar no viewport, disparando a transição.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="reveal"&gt;Aparece ao entrar no viewport&lt;/div&gt;
+&lt;script src="js/scroll-reveal.js"&gt;&lt;/script&gt;
+&lt;script&gt;initScrollReveal({ staggerDelay: 80 })&lt;/script&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview — clique para repetir</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-3)">
+      <div id="reveal-demo-1" class="reveal visible" style="background:rgba(147,51,234,0.12);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 1 — 0ms</div>
+      <div id="reveal-demo-2" class="reveal visible" style="background:rgba(147,51,234,0.12);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 2 — 80ms</div>
+      <div id="reveal-demo-3" class="reveal visible" style="background:rgba(147,51,234,0.12);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 3 — 160ms</div>
+      <button onclick="replayReveal()" style="background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-full);padding:6px 14px;font-size:11px;color:var(--color-text-muted);cursor:pointer;font-family:var(--font-family);transition:all 0.2s" onmouseover="this.style.borderColor='var(--color-purple)';this.style.color='white'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">↺ Repetir animação</button>
+    </div>
+  </div>
+</div>
+
+<!-- grid-pattern -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">.grid-pattern — Grade pontilhada de fundo</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Padrão de grade gerado via <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">background-image: linear-gradient</code>. Usado como decoração de fundo nas seções hero. Position absolute, inset 0.</p>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div style="position:relative;overflow:hidden"&gt;
+  &lt;div class="grid-pattern" style="position:absolute;inset:0;"&gt;&lt;/div&gt;
+  &lt;div style="position:relative;z-index:1"&gt;Conteúdo&lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview</div>
+    <div class="ds-effect-card-body" style="padding:0;min-height:180px">
+      <div class="grid-pattern" style="position:absolute;inset:0"></div>
+      <div style="position:relative;z-index:1;text-align:center">
+        <div style="font-size:var(--font-size-sm);font-weight:600">Conteúdo</div>
+        <div style="font-size:11px;color:var(--color-text-muted);margin-top:4px">sobre o grid</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ── EFEITOS JS ─────────────────────────────────────────────────────────── -->
+<section id="efeitos-js" class="ds-section">
+<h2 class="ds-section-title">Efeitos JS</h2>
+<p class="ds-section-subtitle">Utilitários vanilla independentes. Cada arquivo funciona sozinho, sem dependências entre si.</p>
+
+<!-- smooth-scroll -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">smooth-scroll.js — Lenis smooth scroll</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Inicializa o Lenis com easing exponencial (<code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">duration: 1.2s</code>). O scroll nativo é substituído por um movimento inercial suave. Confirmado no CSS do original via classes <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.lenis.lenis-smooth</code>.</p>
+    <div class="ds-js-sig">initSmoothScroll(options?)
+// Retorna: instância Lenis (window.__lenis)
+// Depende: Lenis CDN</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/smooth-scroll.js"&gt;&lt;/script&gt;
+&lt;script&gt;initSmoothScroll()&lt;/script&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Como funciona</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-3);padding:var(--space-5)">
+      <div style="width:100%;background:#111;border-radius:var(--radius-md);padding:var(--space-3);font-size:11px;font-family:monospace;line-height:1.8;color:#a0a0a0">
+        <span style="color:#9333ea">scroll</span> nativo<br>
+        &nbsp;&nbsp;↓ interceptado pelo Lenis<br>
+        <span style="color:#9333ea">easing</span> exponencial 1.2s<br>
+        &nbsp;&nbsp;↓ requestAnimationFrame loop<br>
+        <span style="color:#9333ea">translateY</span> suavizado
+      </div>
+      <div style="font-size:11px;color:var(--color-text-muted);text-align:center">Role esta página para sentir o efeito ativo</div>
+    </div>
+  </div>
+</div>
+
+<!-- parallax -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">parallax.js — Colunas com velocidades diferentes</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6"><code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.col-fast</code> se move a 0.6× da velocidade de scroll e <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.col-slow</code> a 0.3×, criando profundidade. Usa RAF throttling para performance. No card ao lado, mova o mouse para ver o efeito.</p>
+    <div class="ds-js-sig">initParallax({ fastSelector: '.col-fast', fastSpeed: 0.6,
+               slowSelector: '.col-slow', slowSpeed: 0.3 })</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="col-fast"&gt;&lt;div class="card-image"&gt;...&lt;/div&gt;&lt;/div&gt;
+&lt;div class="col-slow"&gt;&lt;div class="card-image"&gt;...&lt;/div&gt;&lt;/div&gt;
+&lt;script src="js/parallax.js"&gt;&lt;/script&gt;
+&lt;script&gt;initParallax()&lt;/script&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview — mova o mouse aqui</div>
+    <div class="ds-effect-card-body" id="parallax-demo-card" style="overflow:hidden;cursor:none;gap:var(--space-3)">
+      <div id="pdemo-fast" style="display:flex;flex-direction:column;gap:8px;will-change:transform">
+        <div style="width:88px;height:110px;border-radius:10px;overflow:hidden;border:1px solid var(--color-border);flex-shrink:0"><img src="../assets/images/img_451.jpg" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='rgba(147,51,234,0.25)'"/></div>
+        <div style="width:88px;height:110px;border-radius:10px;overflow:hidden;border:1px solid var(--color-border);flex-shrink:0"><img src="../assets/images/img_320.jpg" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='rgba(152,16,250,0.2)'"/></div>
+      </div>
+      <div id="pdemo-slow" style="display:flex;flex-direction:column;gap:8px;margin-top:28px;will-change:transform">
+        <div style="width:88px;height:110px;border-radius:10px;overflow:hidden;border:1px solid var(--color-border);flex-shrink:0"><img src="../assets/images/img_038.webp" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='rgba(110,17,176,0.2)'"/></div>
+        <div style="width:88px;height:110px;border-radius:10px;overflow:hidden;border:1px solid var(--color-border);flex-shrink:0"><img src="../assets/images/img_391.webp" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='rgba(198,0,219,0.2)'"/></div>
+      </div>
+      <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:11px;color:rgba(255,255,255,0.25);white-space:nowrap;pointer-events:none">mova o mouse</div>
+    </div>
+  </div>
+</div>
+
+<!-- nav-behavior -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">nav-behavior.js — Active link + hide/show</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Dois comportamentos: (1) IntersectionObserver detecta qual seção está visível e aplica <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.active</code> no link correspondente. (2) Esconde a nav ao scrollar para baixo e reexibe ao subir.</p>
+    <div class="ds-js-sig">initNavBehavior({ navSelector: '.nav', linkSelector: '.nav-link',
+                     hideThreshold: 100 })</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;script src="js/nav-behavior.js"&gt;&lt;/script&gt;
+&lt;script&gt;initNavBehavior({ navSelector: '.nav', linkSelector: '.nav-link' })&lt;/script&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview — interativo</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-4);padding:var(--space-5)">
+      <div id="nav-demo-bar" style="display:flex;align-items:center;gap:4px;background:rgba(28,28,28,0.8);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:5px;transition:transform 0.4s cubic-bezier(0.25,1,0.30,1),opacity 0.4s ease;width:100%">
+        <span id="ndl-1" onclick="setNavActive(1)" style="flex:1;text-align:center;padding:7px 4px;border-radius:9999px;font-size:12px;font-weight:500;cursor:pointer;background:#9333ea;color:white;transition:all 0.3s">Home</span>
+        <span id="ndl-2" onclick="setNavActive(2)" style="flex:1;text-align:center;padding:7px 4px;border-radius:9999px;font-size:12px;font-weight:500;cursor:pointer;color:#9e9e9e;transition:all 0.3s">Galeria</span>
+        <span id="ndl-3" onclick="setNavActive(3)" style="flex:1;text-align:center;padding:7px 4px;border-radius:9999px;font-size:12px;font-weight:500;cursor:pointer;color:#9e9e9e;transition:all 0.3s">Builders</span>
+      </div>
+      <div style="display:flex;gap:var(--space-2);width:100%">
+        <button onclick="navDemoScroll('down')" style="flex:1;background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-full);padding:7px;font-size:11px;color:var(--color-text-muted);cursor:pointer;font-family:var(--font-family);transition:all 0.2s" onmouseover="this.style.borderColor='#9333ea'" onmouseout="this.style.borderColor='var(--color-border)'">↓ Scroll down</button>
+        <button onclick="navDemoScroll('up')" style="flex:1;background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-full);padding:7px;font-size:11px;color:var(--color-text-muted);cursor:pointer;font-family:var(--font-family);transition:all 0.2s" onmouseover="this.style.borderColor='#9333ea'" onmouseout="this.style.borderColor='var(--color-border)'">↑ Scroll up</button>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-muted);text-align:center">Clique nos links ou nos botões para ver o comportamento</div>
+    </div>
+  </div>
+</div>
+
+<!-- scroll-reveal -->
+<div class="ds-effect">
+  <div class="ds-effect-info">
+    <div class="ds-component-label">scroll-reveal.js — Reveal com IntersectionObserver</div>
+    <p style="color:var(--color-text-muted);font-size:var(--font-size-sm);line-height:1.6">Observa elementos com <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.reveal</code> e adiciona <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">.visible</code> ao entrar na tela. Stagger automático entre irmãos (cada um atrasa <code style="font-family:monospace;font-size:11px;background:#111;padding:1px 5px;border-radius:4px">staggerDelay × índice</code> ms).</p>
+    <div class="ds-js-sig">initScrollReveal({ selector: '.reveal', staggerDelay: 80,
+                       threshold: 0.15 })
+// data-reveal-delay="200" para delay manual</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="reveal"&gt;Item 1 — 0ms&lt;/div&gt;
+&lt;div class="reveal"&gt;Item 2 — 80ms&lt;/div&gt;
+&lt;div class="reveal"&gt;Item 3 — 160ms&lt;/div&gt;
+&lt;script src="js/scroll-reveal.js"&gt;&lt;/script&gt;
+&lt;script&gt;initScrollReveal({ staggerDelay: 80 })&lt;/script&gt;</div>
+  </div>
+  <div class="ds-effect-card">
+    <div class="ds-effect-card-label">Preview — clique para repetir</div>
+    <div class="ds-effect-card-body" style="flex-direction:column;gap:var(--space-2);padding:var(--space-5)">
+      <div id="sr-demo-1" class="reveal visible" style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 1 — 0ms</div>
+      <div id="sr-demo-2" class="reveal visible" style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 2 — 80ms</div>
+      <div id="sr-demo-3" class="reveal visible" style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);width:100%;text-align:center">Item 3 — 160ms</div>
+      <button onclick="replayReveal()" style="background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-full);padding:6px 14px;font-size:11px;color:var(--color-text-muted);cursor:pointer;font-family:var(--font-family);transition:all 0.2s;margin-top:var(--space-1)" onmouseover="this.style.borderColor='var(--color-purple)';this.style.color='white'" onmouseout="this.style.borderColor='var(--color-border)';this.style.color='var(--color-text-muted)'">↺ Repetir animação</button>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<hr class="ds-divider"/>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- LAYOUT — PRIMITIVAS                                                        -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<section id="layout-primitivas" class="ds-section">
+  <h2 class="ds-section-title">Layout — Primitivas</h2>
+  <p class="ds-section-subtitle">Blocos composicionais intrinsecamente responsivos. Sem media queries obrigatórias — o layout se adapta ao espaço disponível.</p>
+
+  <!-- STACK -->
+  <div class="ds-component">
+    <div class="ds-component-label">Stack — coluna vertical com gap uniforme</div>
+    <div class="ds-preview">
+      <div class="stack stack-4" style="width:100%;max-width:360px">
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);text-align:center">Item 1</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);text-align:center">Item 2</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.3);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:var(--font-size-sm);text-align:center">Item 3</div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="stack stack-4"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+  &lt;div&gt;Item 3&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Variantes: stack-2 stack-3 stack-4 stack-8 stack-12 stack-16 --&gt;
+&lt;!-- Ou: style="--stack-gap: 40px" --&gt;</div>
+    <div style="margin-top:var(--space-4);display:flex;gap:var(--space-3);flex-wrap:wrap">
+      <span style="font-size:11px;background:#111;padding:4px 10px;border-radius:4px;font-family:monospace;color:var(--color-purple-light)">--stack-gap</span>
+      <span style="font-size:var(--font-size-xs);color:var(--color-text-muted)">Controla o gap via CSS custom property. Padrão: var(--space-6)</span>
+    </div>
+  </div>
+
+  <!-- CLUSTER -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Cluster — flex horizontal wrap (badges, botões, tags)</div>
+    <div class="ds-preview">
+      <div class="cluster" style="--cluster-gap:var(--space-3)">
+        <span class="badge">Design System</span>
+        <span class="badge badge-purple">Tokens</span>
+        <span class="badge">Componentes</span>
+        <span class="badge badge-purple">Layout</span>
+        <span class="badge">Efeitos</span>
+        <span class="badge">JS Vanilla</span>
+        <span class="badge badge-purple">DESIGN.md</span>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="cluster"&gt;
+  &lt;span class="badge"&gt;Tag 1&lt;/span&gt;
+  &lt;span class="badge"&gt;Tag 2&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Alinhamento: cluster-center | cluster-end | cluster-between --&gt;
+&lt;!-- Gap: style="--cluster-gap: var(--space-3)" --&gt;</div>
+  </div>
+
+  <!-- GRID -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Grid — colunas auto-responsivas (sem breakpoints hardcoded)</div>
+    <div class="ds-preview" style="padding:var(--space-6)">
+      <div class="grid" style="--grid-min:120px;--grid-gap:var(--space-3)">
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--font-size-xs);text-align:center">Col</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--font-size-xs);text-align:center">Col</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--font-size-xs);text-align:center">Col</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--font-size-xs);text-align:center">Col</div>
+        <div style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.25);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--font-size-xs);text-align:center">Col</div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;!-- Auto-fit: colunas se ajustam ao espaço disponível --&gt;
+&lt;div class="grid" style="--grid-min: 280px"&gt; ...filhos... &lt;/div&gt;
+
+&lt;!-- Colunas fixas: --&gt;
+&lt;div class="grid-2"&gt; &lt;!-- 2 colunas --&gt; &lt;/div&gt;
+&lt;div class="grid-3"&gt; &lt;!-- 3 colunas → 2 em 900px → 1 em 600px --&gt; &lt;/div&gt;
+&lt;div class="grid-4"&gt; &lt;!-- 4 colunas → 2 em 900px → 1 em 600px --&gt; &lt;/div&gt;</div>
+  </div>
+
+  <!-- SWITCHER -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Switcher — horizontal até o threshold, depois vertical (sem @media)</div>
+    <div class="ds-preview" style="padding:var(--space-6)">
+      <div class="switcher" style="--switch-threshold: 600px; --switch-gap: var(--space-4)">
+        <div style="background:rgba(147,51,234,0.12);border:1px solid rgba(147,51,234,0.2);border-radius:var(--radius-md);padding:var(--space-5);font-size:var(--font-size-sm)">
+          <strong style="color:var(--color-purple-light)">Conteúdo principal</strong>
+          <p style="color:var(--color-text-muted);font-size:var(--font-size-xs);margin-top:var(--space-2)">Ocupa o espaço restante. Fica em cima quando o container for menor que 600px.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--color-border-soft);border-radius:var(--radius-md);padding:var(--space-5);font-size:var(--font-size-sm)">
+          <strong>Sidebar / aside</strong>
+          <p style="color:var(--color-text-muted);font-size:var(--font-size-xs);margin-top:var(--space-2)">Largura intrínseca. Vai para baixo automaticamente.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="switcher" style="--switch-threshold: 600px"&gt;
+  &lt;div&gt;Conteúdo principal&lt;/div&gt;
+  &lt;div&gt;Sidebar&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Quando o container &lt; 600px: stacks verticalmente. Zero @media. --&gt;</div>
+  </div>
+
+  <!-- COVER -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Cover — conteúdo centralizado verticalmente em min-height</div>
+    <div class="ds-preview" style="padding:0;min-height:0">
+      <div class="cover cover-60" style="background:var(--color-surface);border-radius:var(--radius-lg);--cover-height:200px;padding:var(--space-6)">
+        <div style="text-align:center">
+          <div style="font-size:var(--font-size-lg);font-weight:var(--font-weight-bold);margin-bottom:var(--space-2)">Centralizado</div>
+          <div style="font-size:var(--font-size-sm);color:var(--color-text-muted)">O conteúdo fica no meio vertical do container</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;section class="cover"&gt; &lt;!-- min-height: 100vh --&gt;
+  &lt;div&gt;Conteúdo centralizado verticalmente&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- Variantes de altura: --&gt;
+&lt;section class="cover cover-80"&gt; &lt;!-- 80vh --&gt; &lt;/section&gt;
+&lt;section class="cover cover-60"&gt; &lt;!-- 60vh --&gt; &lt;/section&gt;
+&lt;!-- Ou: style="--cover-height: 500px" --&gt;</div>
+  </div>
+
+  <!-- CONTAINER -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Container — max-width com padding horizontal</div>
+    <div class="ds-preview" style="padding:var(--space-5);background:transparent">
+      <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+        <div style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.2);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-4);font-size:var(--font-size-xs);font-family:monospace;display:flex;justify-content:space-between"><span>.container-sm</span><span style="color:var(--color-text-muted)">640px</span></div>
+        <div style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.2);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-4);font-size:var(--font-size-xs);font-family:monospace;display:flex;justify-content:space-between"><span>.container-md</span><span style="color:var(--color-text-muted)">860px</span></div>
+        <div style="background:rgba(147,51,234,0.2);border:1px solid rgba(147,51,234,0.4);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-4);font-size:var(--font-size-xs);font-family:monospace;display:flex;justify-content:space-between"><span>.container / .container-lg</span><span style="color:var(--color-purple-light)">1100px (padrão)</span></div>
+        <div style="background:rgba(147,51,234,0.1);border:1px solid rgba(147,51,234,0.2);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-4);font-size:var(--font-size-xs);font-family:monospace;display:flex;justify-content:space-between"><span>.container-xl</span><span style="color:var(--color-text-muted)">1400px</span></div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="container"&gt;     &lt;!-- max-width: 1100px, centralizado --&gt;
+&lt;div class="container-sm"&gt; &lt;!-- 640px — textos longos, artigos --&gt;
+&lt;div class="container-md"&gt; &lt;!-- 860px — CTAs, forms --&gt;
+&lt;div class="container-xl"&gt; &lt;!-- 1400px — layouts de dashboard --&gt;
+
+&lt;!-- Padding horizontal: var(--space-6) em todos --&gt;
+&lt;!-- Ou: style="--container-max: 900px" --&gt;</div>
+  </div>
+
+  <!-- SECTION -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Section — padding vertical de página</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;section class="section"&gt;      &lt;!-- padding-block: 80px --&gt;
+&lt;section class="section section-sm"&gt; &lt;!-- padding-block: 48px --&gt;
+&lt;section class="section section-lg"&gt; &lt;!-- padding-block: 120px --&gt;
+&lt;!-- Ou: style="--section-pad: 60px" --&gt;</div>
+  </div>
+
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTIONS — stacking system, headings, section-inner                       -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<section class="ds-section" id="layout-sections">
+  <h2 class="ds-section-title">Sections — Stacking &amp; Estrutura</h2>
+  <p class="ds-section-subtitle">Sistema de camadas da página: o hero fica sticky no topo (z-0), as seções seguintes sobrepõem com z-20/z-30. Todas usam <code style="font-family:monospace;font-size:12px;background:#111;padding:2px 6px;border-radius:4px">margin-top: -1px</code> para eliminar gaps entre seções.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">Hierarquia de z-index</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;!-- Hero: sticky z-0 --&gt;
+&lt;section class="section-hero"&gt; ... &lt;/section&gt;
+
+&lt;!-- Galeria: z-20, pt-36, -mt-[1px] --&gt;
+&lt;section class="section-galeria"&gt; ... &lt;/section&gt;
+
+&lt;!-- Builders/Funcionalidades/Resultados: z-30 --&gt;
+&lt;section class="section-content section-funcionalidades"&gt; ... &lt;/section&gt;
+
+&lt;!-- Authority (flip cards): z-999, full-screen --&gt;
+&lt;section class="section-authority"&gt; ... &lt;/section&gt;</div>
+  </div>
+
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">Section heading padrão</div>
+    <div class="ds-preview dark">
+      <div style="width:100%;text-align:center;padding:var(--space-8)">
+        <h2 class="section-title" style="font-size:2.5rem">Feito para <strong>designers</strong></h2>
+        <p class="section-desc" style="margin-inline:auto">A única ferramenta de IA que entende o universo criativo do design digital.</p>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="section-heading"&gt;
+  &lt;h2 class="section-title"&gt;Feito para &lt;strong&gt;designers&lt;/strong&gt;&lt;/h2&gt;
+  &lt;p class="section-desc"&gt;Descrição da seção.&lt;/p&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">section-inner — wrapper de conteúdo max-w-7xl</div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;section class="section-content"&gt;
+  &lt;div class="section-inner"&gt;
+    &lt;!-- max-width: 1280px; px: 16px mobile / 32px md --&gt;
+    Conteúdo aqui
+  &lt;/div&gt;
+&lt;/section&gt;</div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- MARQUEE / TICKER                                                           -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<section class="ds-section" id="layout-marquee">
+  <h2 class="ds-section-title">Marquee &amp; Ticker</h2>
+  <p class="ds-section-subtitle">Dois padrões de scroll automático: marquee de imagens (galeria) e ticker strip roxo (resultados). Keyframes: <code style="font-family:monospace;font-size:12px;background:#111;padding:2px 6px;border-radius:4px">marqueeLeft</code> / <code style="font-family:monospace;font-size:12px;background:#111;padding:2px 6px;border-radius:4px">marqueeRight</code>.</p>
+
+  <!-- Marquee preview -->
+  <div class="ds-component">
+    <div class="ds-component-label">.marquee-wrap + .marquee-track-left — scroll horizontal automático</div>
+    <div class="ds-preview dark" style="padding:0;overflow:hidden;min-height:80px;align-items:stretch">
+      <div class="marquee-wrap" style="width:100%;padding-block:var(--space-4)">
+        <div class="marquee-track marquee-track-left" style="gap:12px">
+          <!-- duplicated for seamless loop -->
+          <div style="display:flex;gap:12px;flex-shrink:0">
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(172,75,255,0.2);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(110,17,176,0.4);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.2);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(198,0,219,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(172,75,255,0.25);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(110,17,176,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+          </div>
+          <div style="display:flex;gap:12px;flex-shrink:0" aria-hidden="true">
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(172,75,255,0.2);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(110,17,176,0.4);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.2);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(198,0,219,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(172,75,255,0.25);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(147,51,234,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+            <div style="width:72px;height:56px;background:rgba(110,17,176,0.3);border:1px solid var(--color-border);border-radius:var(--radius-sm);flex-shrink:0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;!-- Duplicar o conteúdo interno para loop perfeito --&gt;
+&lt;div class="marquee-wrap"&gt;
+  &lt;div class="marquee-track marquee-track-left"&gt;
+    &lt;div&gt;&lt;!-- items --&gt;&lt;/div&gt;
+    &lt;div aria-hidden="true"&gt;&lt;!-- items duplicados --&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Velocidade customizada: --&gt;
+&lt;div style="--marquee-speed-slow: 25s"&gt; ... &lt;/div&gt;</div>
+  </div>
+
+  <!-- Ticker strip -->
+  <div class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">.ticker — faixa roxa de destaque (seção Resultados)</div>
+    <div class="ds-preview dark" style="padding:0;overflow:hidden">
+      <div class="ticker" style="--marquee-speed-ticker:12s">
+        <div class="ticker-track">
+          <span class="ticker-item ticker-item-light">Designs incríveis</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-dark">Em segundos</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-light">Sem prompts</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-dark">Mais escala</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-light">Designs incríveis</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-dark">Em segundos</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-light">Sem prompts</span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item ticker-item-dark">Mais escala</span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="ticker"&gt;
+  &lt;div class="ticker-track"&gt;
+    &lt;span class="ticker-item ticker-item-light"&gt;Designs incríveis&lt;/span&gt;
+    &lt;span class="ticker-sep"&gt;·&lt;/span&gt;
+    &lt;span class="ticker-item ticker-item-dark"&gt;Em segundos&lt;/span&gt;
+    &lt;span class="ticker-sep"&gt;·&lt;/span&gt;
+    &lt;!-- duplicar para loop perfeito --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- FEATURE GALLERY — accordion expand-on-hover                               -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<section class="ds-section" id="layout-feat">
+  <h2 class="ds-section-title">Feature Gallery — Expand on Hover</h2>
+  <p class="ds-section-subtitle">Painéis de largura variável: ao passar o mouse, o painel ativo expande (flex: 1.8) e os outros encolhem (flex: 0.8). O texto <code style="font-family:monospace;font-size:12px;background:#111;padding:2px 6px;border-radius:4px">.feat-copy</code> desliza do fundo. Usado na seção <strong>Funcionalidades</strong>.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">.feat-gallery — hover em cada painel</div>
+    <div class="ds-preview dark" style="padding:0;overflow:hidden;height:240px;align-items:stretch">
+      <div class="feat-gallery" style="--feat-gallery-height:240px;margin-top:0">
+        <div class="feat-card" style="background:rgba(147,51,234,0.25)">
+          <div class="feat-card-gradient"></div>
+          <div class="feat-card-overlay"></div>
+          <div class="feat-copy">
+            <div class="feat-copy-title" style="font-size:1rem">Templates</div>
+            <div class="feat-copy-desc" style="font-size:12px">Centenas de templates prontos para usar.</div>
+          </div>
+          <div class="feat-plus">+</div>
+        </div>
+        <div class="feat-card" style="background:rgba(198,0,219,0.25)">
+          <div class="feat-card-gradient"></div>
+          <div class="feat-card-overlay"></div>
+          <div class="feat-copy">
+            <div class="feat-copy-title" style="font-size:1rem">IA Generativa</div>
+            <div class="feat-copy-desc" style="font-size:12px">Crie variações em segundos com IA.</div>
+          </div>
+          <div class="feat-plus">+</div>
+        </div>
+        <div class="feat-card" style="background:rgba(110,17,176,0.35)">
+          <div class="feat-card-gradient"></div>
+          <div class="feat-card-overlay"></div>
+          <div class="feat-copy">
+            <div class="feat-copy-title" style="font-size:1rem">Exportar</div>
+            <div class="feat-copy-desc" style="font-size:12px">Download em múltiplos formatos.</div>
+          </div>
+          <div class="feat-plus">+</div>
+        </div>
+        <div class="feat-card" style="background:rgba(172,75,255,0.25)">
+          <div class="feat-card-gradient"></div>
+          <div class="feat-card-overlay"></div>
+          <div class="feat-copy">
+            <div class="feat-copy-title" style="font-size:1rem">Brandkit</div>
+            <div class="feat-copy-desc" style="font-size:12px">Sua identidade sempre consistente.</div>
+          </div>
+          <div class="feat-plus">+</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="feat-gallery"&gt;
+  &lt;div class="feat-card"&gt;
+    &lt;img src="..." alt="" /&gt;
+    &lt;div class="feat-card-gradient"&gt;&lt;/div&gt;
+    &lt;div class="feat-card-overlay"&gt;&lt;/div&gt;
+    &lt;div class="feat-copy"&gt;
+      &lt;div class="feat-copy-title"&gt;Templates&lt;/div&gt;
+      &lt;div class="feat-copy-desc"&gt;Centenas de templates prontos.&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="feat-plus"&gt;+&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- repita para cada painel --&gt;
+&lt;/div&gt;</div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- BENTO GRID                                                                 -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<section class="ds-section" id="layout-bento">
+  <h2 class="ds-section-title">Bento Grid — Builders</h2>
+  <p class="ds-section-subtitle">Grid de 6 colunas (md) com cards de diferentes tamanhos. Card principal ocupa 3 colunas × 2 linhas (<code style="font-family:monospace;font-size:12px;background:#111;padding:2px 6px;border-radius:4px">.bento-3-2</code>). Usado na seção <strong>Builders</strong>.</p>
+
+  <div class="ds-component">
+    <div class="ds-component-label">.bento-grid + .card-bento / .card-bento-sm</div>
+    <div class="ds-preview dark" style="padding:var(--space-4);align-items:stretch">
+      <div class="bento-grid" style="width:100%">
+        <div class="card-bento bento-3-2 bento-full" style="min-height:160px;background:rgba(147,51,234,0.15);border-radius:var(--bento-radius)">
+          <div class="card-bento-content">
+            <div class="card-bento-title" style="font-size:1.5rem">Título Principal</div>
+            <div class="card-bento-desc" style="font-size:13px">Card grande — col-span-3 row-span-2</div>
+          </div>
+        </div>
+        <div class="card-bento card-bento-sm bento-1-1 bento-half" style="min-height:100px;background:rgba(198,0,219,0.15);border-radius:var(--bento-radius-sm)">
+          <div class="card-bento-content">
+            <div class="card-bento-title" style="font-size:1rem">Card 2</div>
+          </div>
+        </div>
+        <div class="card-bento card-bento-sm bento-1-1 bento-half" style="min-height:100px;background:rgba(110,17,176,0.2);border-radius:var(--bento-radius-sm)">
+          <div class="card-bento-content">
+            <div class="card-bento-title" style="font-size:1rem">Card 3</div>
+          </div>
+        </div>
+        <div class="card-bento card-bento-sm bento-1-1 bento-half" style="min-height:100px;background:rgba(172,75,255,0.15);border-radius:var(--bento-radius-sm)">
+          <div class="card-bento-content">
+            <div class="card-bento-title" style="font-size:1rem">Card 4</div>
+          </div>
+        </div>
+        <div class="card-bento card-bento-sm bento-1-1 bento-half" style="min-height:100px;background:rgba(147,51,234,0.2);border-radius:var(--bento-radius-sm)">
+          <div class="card-bento-content">
+            <div class="card-bento-title" style="font-size:1rem">Card 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="bento-grid"&gt;
+  &lt;!-- Large card: 3 cols × 2 rows (md) --&gt;
+  &lt;div class="card-bento bento-3-2"&gt;
+    &lt;img src="..." alt="" /&gt;
+    &lt;div class="card-bento-overlay"&gt;&lt;/div&gt;
+    &lt;div class="card-bento-blur"&gt;&lt;/div&gt;
+    &lt;div class="card-bento-content"&gt;
+      &lt;div class="card-bento-title"&gt;Nome&lt;/div&gt;
+      &lt;div class="card-bento-desc"&gt;Especialidade&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Small cards: 1 col × 1 row each --&gt;
+  &lt;div class="card-bento card-bento-sm bento-1-1"&gt; ... &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<!-- NEW CARD TYPES                                                             -->
+<!-- ═════════════════════════════════════════════════════════════════════════ -->
+<section class="ds-section" id="cards-bento">
+  <h2 class="ds-section-title">Cards — Novos Tipos</h2>
+  <p class="ds-section-subtitle">Quatro novos cards extraídos das seções Builders, Funcionalidades e Resultados da página original.</p>
+  <hr class="ds-divider" style="margin-top:0"/>
+
+  <!-- card-testimonial-glass -->
+  <div id="cards-testimonial" class="ds-component">
+    <div class="ds-component-label">.card-testimonial-glass — glassmorphism (seção Resultados)</div>
+    <div class="ds-preview dark" style="gap:var(--space-4);flex-wrap:wrap;background:linear-gradient(135deg,#0a0008,#000000)">
+      <div class="card-testimonial-glass" style="width:340px;min-width:0">
+        <div class="card-testimonial-glass-quote">"O Design Builder transformou minha produção. Crio dezenas de peças por dia com qualidade de sênior."</div>
+        <div class="card-testimonial-glass-author">
+          <div class="card-testimonial-glass-avatar">M</div>
+          <div>
+            <div class="card-testimonial-glass-name">Mariana Costa</div>
+            <div class="card-testimonial-glass-handle">@mariana.design</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-testimonial-glass"&gt;
+  &lt;p class="card-testimonial-glass-quote"&gt;"Depoimento aqui."&lt;/p&gt;
+  &lt;div class="card-testimonial-glass-author"&gt;
+    &lt;div class="card-testimonial-glass-avatar"&gt;M&lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="card-testimonial-glass-name"&gt;Nome&lt;/div&gt;
+      &lt;div class="card-testimonial-glass-handle"&gt;@handle&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <!-- card-bento -->
+  <div id="cards-bento-card" class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">.card-bento — card de builder com imagem + blur + gradiente</div>
+    <div class="ds-preview dark" style="height:320px;padding:var(--space-4);align-items:stretch">
+      <div class="card-bento" style="width:100%;background:linear-gradient(135deg,rgba(147,51,234,0.3),rgba(110,17,176,0.5))">
+        <div class="card-bento-overlay"></div>
+        <div class="card-bento-content">
+          <div class="card-bento-title" style="font-size:2rem">Órion Silva</div>
+          <div class="card-bento-desc">Designer sênior · 12 anos de experiência</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-bento bento-3-2"&gt;
+  &lt;img src="foto.jpg" alt="Nome" /&gt;
+  &lt;div class="card-bento-overlay"&gt;&lt;/div&gt;
+  &lt;div class="card-bento-blur"&gt;&lt;/div&gt;
+  &lt;div class="card-bento-content"&gt;
+    &lt;div class="card-bento-title"&gt;Órion Silva&lt;/div&gt;
+    &lt;div class="card-bento-desc"&gt;Designer sênior&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <!-- card-showcase -->
+  <div id="cards-showcase" class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">.card-showcase — card alto com glow bottom (seção Funcionalidades)</div>
+    <div class="ds-preview dark" style="height:360px;padding:var(--space-4);align-items:stretch">
+      <div class="card-showcase" style="height:320px;width:260px;background:linear-gradient(160deg,rgba(172,75,255,0.2),rgba(110,17,176,0.4))">
+        <div class="card-showcase-overlay"></div>
+        <div class="card-showcase-blur"></div>
+        <div class="card-showcase-glow"></div>
+        <div class="card-showcase-content">
+          <div class="card-showcase-title">Templates prontos</div>
+          <div class="card-showcase-desc">Centenas de layouts profissionais para qualquer formato.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-showcase"&gt;
+  &lt;img src="preview.jpg" alt="" /&gt;
+  &lt;div class="card-showcase-overlay"&gt;&lt;/div&gt;
+  &lt;div class="card-showcase-blur"&gt;&lt;/div&gt;
+  &lt;div class="card-showcase-glow"&gt;&lt;/div&gt;
+  &lt;div class="card-showcase-content"&gt;
+    &lt;div class="card-showcase-title"&gt;Templates prontos&lt;/div&gt;
+    &lt;div class="card-showcase-desc"&gt;Descrição curta.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+
+  <!-- card-flip -->
+  <div id="cards-flip" class="ds-component" style="margin-top:var(--space-8)">
+    <div class="ds-component-label">.card-flip — 3D flip on hover (seção Authority)</div>
+    <div class="ds-preview dark" style="height:200px;gap:var(--space-6)">
+      <div class="card-flip-scene" style="width:160px;height:160px">
+        <div class="card-flip" style="width:160px;height:160px">
+          <div class="card-flip-front">
+            <div style="font-size:var(--font-size-sm);font-weight:600;color:var(--color-text-muted);text-align:center">Logo / Imagem<br><span style="font-size:11px">Passe o mouse →</span></div>
+          </div>
+          <div class="card-flip-back">
+            <div style="font-size:var(--font-size-sm);font-weight:600;color:var(--color-text);text-align:center">Texto / Info<br><span style="font-size:11px;color:rgba(255,255,255,0.7)">Verso do card</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-code" style="position:relative"><button class="ds-copy-btn" onclick="copyCode(this)">Copiar</button>&lt;div class="card-flip-scene"&gt;
+  &lt;div class="card-flip"&gt;
+    &lt;div class="card-flip-front"&gt;
+      &lt;img src="logo.svg" alt="" /&gt;
+    &lt;/div&gt;
+    &lt;div class="card-flip-back"&gt;
+      &lt;p&gt;Informação extra&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</div>
+  </div>
+
+</section>
+
+</main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<script src="js/scroll-reveal.js"></script>
+<script src="js/nav-behavior.js"></script>
+
+<script>
+
+// ── Init scroll reveal ────────────────────────────────────────────────────
+if (typeof initScrollReveal === 'function') {
+  initScrollReveal({ selector: '.reveal', staggerDelay: 80 });
+}
+
+// ── Parallax demo — mouse-driven dentro do card ───────────────────────────
+(function() {
+  var card = document.getElementById('parallax-demo-card');
+  var fast = document.getElementById('pdemo-fast');
+  var slow = document.getElementById('pdemo-slow');
+  if (!card || !fast || !slow) return;
+  var rect, cx, cy;
+  card.addEventListener('mouseenter', function() { rect = card.getBoundingClientRect(); });
+  card.addEventListener('mousemove', function(e) {
+    if (!rect) rect = card.getBoundingClientRect();
+    cx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    cy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+    fast.style.transform = 'translateY(' + (cy * -22) + 'px) translateX(' + (cx * -10) + 'px)';
+    slow.style.transform = 'translateY(' + (cy * -11 + 28) + 'px) translateX(' + (cx * -5) + 'px)';
+  });
+  card.addEventListener('mouseleave', function() {
+    fast.style.transform = '';
+    slow.style.transform = 'translateY(28px)';
+  });
+  // init default offset for slow col
+  slow.style.transform = 'translateY(28px)';
+})();
+
+// ── Nav demo — botões interativos ─────────────────────────────────────────
+function setNavActive(n) {
+  [1,2,3].forEach(function(i) {
+    var el = document.getElementById('ndl-' + i);
+    if (!el) return;
+    if (i === n) {
+      el.style.background = '#9333ea'; el.style.color = 'white';
+    } else {
+      el.style.background = 'transparent'; el.style.color = '#9e9e9e';
+    }
+  });
+}
+function navDemoScroll(dir) {
+  var bar = document.getElementById('nav-demo-bar');
+  if (!bar) return;
+  if (dir === 'down') {
+    bar.style.transform = 'translateY(-120%)';
+    bar.style.opacity = '0';
+  } else {
+    bar.style.transform = 'translateY(0)';
+    bar.style.opacity = '1';
+  }
+}
+
+// ── Reveal demo — replay ──────────────────────────────────────────────────
+function replayReveal() {
+  var ids = ['reveal-demo-1','reveal-demo-2','reveal-demo-3',
+             'sr-demo-1','sr-demo-2','sr-demo-3'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.classList.remove('visible');
+  });
+  setTimeout(function() {
+    ['reveal-demo-1','sr-demo-1'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.classList.add('visible');
+    });
+  }, 100);
+  setTimeout(function() {
+    ['reveal-demo-2','sr-demo-2'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.classList.add('visible');
+    });
+  }, 180);
+  setTimeout(function() {
+    ['reveal-demo-3','sr-demo-3'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.classList.add('visible');
+    });
+  }, 260);
+}
+
+// ── Sidebar active link on scroll ─────────────────────────────────────────
+(function() {
+  var sidebarLinks = Array.from(document.querySelectorAll('.ds-nav-item'));
+  var dsSections = Array.from(document.querySelectorAll('.ds-section'));
+
+  if (!dsSections.length || !('IntersectionObserver' in window)) return;
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        sidebarLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+
+  dsSections.forEach(function(s) { obs.observe(s); });
+
+  // Click: smooth scroll in sidebar
+  sidebarLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      var target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+})();
+
+// ── Copy code button ───────────────────────────────────────────────────────
+function copyCode(btn) {
+  var codeEl = btn.parentElement;
+  // Get text, stripping the button label
+  var text = codeEl.textContent.replace(/^Copiar|^Copiado!/g, '').trim();
+  if (!navigator.clipboard) {
+    // Fallback for non-https / older browsers
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copiado!';
+    setTimeout(function() { btn.textContent = 'Copiar'; }, 1500);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'Copiado!';
+    setTimeout(function() { btn.textContent = 'Copiar'; }, 1500);
+  });
+}
+
+// ── Lucide icons ───────────────────────────────────────────────────────────
+if (typeof lucide !== 'undefined') {
+  lucide.createIcons();
+}
+</script>
+</body>
+</html>

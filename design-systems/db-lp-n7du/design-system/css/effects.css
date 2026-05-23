@@ -1,0 +1,351 @@
+/* effects.css — Visual effect utilities and keyframes */
+/* Sources: hero overlay, nav glass, glow orbs, scroll reveal, parallax */
+
+/* ── Glass ─────────────────────────────────────────────────────────────────── */
+/* Source: nav background rgba(0,0,0,0.5) + backdrop-filter blur(20px)        */
+.glass {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+}
+
+/* ── Glow orb — decorative purple ambient light ────────────────────────────── */
+/* Source: blur(80px) orbs in section backgrounds */
+.glow-purple {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-purple::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(147, 51, 234, 0.25);
+  border-radius: var(--radius-full);
+  filter: var(--blur-glow);
+  pointer-events: none;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ── Gradient mask — bottom fade ───────────────────────────────────────────── */
+/* Source: hero image columns fade to transparent at the bottom              */
+.gradient-mask-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.gradient-mask-top {
+  -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
+}
+
+/* ── Grid pattern overlay ───────────────────────────────────────────────────── */
+/* Source: hero section faint grid lines with radial mask                     */
+/* Customize via: --grid-pattern-size, --grid-pattern-opacity, --grid-pattern-mask */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, var(--grid-pattern-opacity, 0.10)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, var(--grid-pattern-opacity, 0.10)) 1px, transparent 1px);
+  background-size: var(--grid-pattern-size, 60px) var(--grid-pattern-size, 60px);
+  -webkit-mask-image: var(--grid-pattern-mask, radial-gradient(ellipse 55% 70% at 50% 50%, black 40%, transparent 80%));
+  mask-image: var(--grid-pattern-mask, radial-gradient(ellipse 55% 70% at 50% 50%, black 40%, transparent 80%));
+  pointer-events: none;
+}
+
+/* Variant: tighter grid (48px) for CTA / dark card sections                  */
+.grid-pattern-tight {
+  --grid-pattern-size: 48px;
+  --grid-pattern-mask: radial-gradient(ellipse 70% 80% at 50% 50%, black 20%, transparent 75%);
+}
+
+/* ── Reveal — scroll-triggered entry ───────────────────────────────────────── */
+/* JS adds .visible when element enters the viewport (IntersectionObserver)   */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: var(--transition-reveal);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay variants for stagger (use data-reveal-delay on elements for JS stagger) */
+.reveal-delay-1 { transition-delay: 80ms; }
+.reveal-delay-2 { transition-delay: 160ms; }
+.reveal-delay-3 { transition-delay: 240ms; }
+.reveal-delay-4 { transition-delay: 320ms; }
+
+/* ── Pulse glow — animated border / shadow ─────────────────────────────────── */
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* ── Scale transform helpers ───────────────────────────────────────────────── */
+/* Source: hero sections use scale transforms for responsive sizing           */
+.scale-left {
+  transform-origin: left center;
+}
+
+.scale-right {
+  transform-origin: right center;
+}
+
+.scale-center-bottom {
+  transform-origin: bottom center;
+}
+
+.scale-center {
+  transform-origin: center center;
+}
+
+/* ── Hover card lift ────────────────────────────────────────────────────────── */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ── Hover scale ────────────────────────────────────────────────────────────── */
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* KEYFRAMES                                                                  */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Entry from below */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shimmer sweep across button */
+@keyframes shimmer {
+  0% {
+    transform: skewX(-25deg) translateX(-200%);
+  }
+  60%, 100% {
+    transform: skewX(-25deg) translateX(400%);
+  }
+}
+
+/* Purple glow pulse */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(147, 51, 234, 0.5);
+  }
+}
+
+/* Nav slide down on load */
+@keyframes navSlideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Spin (used with .animate-spin) */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse (used with .animate-pulse) */
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Float — gentle bob for decorative elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ── Additional effects extracted from original ─────────────────────────── */
+
+/* Drop shadow white — observed on hero images: drop-shadow(0 0 15px rgba(255,255,255,0.15)) */
+.drop-shadow-white {
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+}
+
+/* Drop shadow purple */
+.drop-shadow-purple {
+  filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.4));
+}
+
+/* Hero overlay — dark fade from top, used on hero image column area          */
+/* Source: hero columns have a dark gradient overlay on top edge               */
+.hero-overlay-top {
+  -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
+}
+
+/* Glow orb large — 500px, used in CTA / section backgrounds                  */
+.glow-purple-lg {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow-purple-lg::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(147, 51, 234, 0.18);
+  border-radius: var(--radius-full);
+  filter: var(--blur-glow);
+  pointer-events: none;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Text shadow white glow — used on white button hover shadow                  */
+.text-glow-white {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Overflow visible helper — for elements that need to show glow beyond bounds */
+.overflow-visible {
+  overflow: visible;
+}
+
+/* ── Grid pattern muted — 4% opacity variant ──────────────────────────── */
+/* Source: builders, funcionalidades, resultados sections (vs hero's 10%)  */
+.grid-pattern-muted {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, var(--grid-pattern-opacity-muted, 0.04)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, var(--grid-pattern-opacity-muted, 0.04)) 1px, transparent 1px);
+  background-size: var(--grid-pattern-size, 60px) var(--grid-pattern-size, 60px);
+  -webkit-mask-image: var(--grid-pattern-mask-builders);
+  mask-image: var(--grid-pattern-mask-builders);
+  pointer-events: none;
+}
+
+/* ── Mobile hero overlay — dark radial blur mask (mobile only) ────────── */
+/* Source: hero section, only shown on <md, covers image columns           */
+/* opacity: 0.96; backdrop-filter: blur(30px); radial transparent center  */
+.hero-mobile-mask {
+  background: black;
+  opacity: 0.96;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, rgba(0,0,0,0.9) 45%, transparent 95%);
+  mask-image: radial-gradient(circle at center, black 0%, rgba(0,0,0,0.9) 45%, transparent 95%);
+}
+
+/* ── Section divider — top hairline glow ─────────────────────────────── */
+/* Source: galeria section top edge: linear-gradient via white/15          */
+.divider-glow-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+  pointer-events: none;
+}
+
+/* ── Glow orb bottom-center — under showcase cards ───────────────────── */
+/* Source: funcionalidades cards: absolute -bottom-24 blur-[80px]         */
+.glow-orb-bottom {
+  position: absolute;
+  bottom: -96px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66%;
+  height: 192px;
+  background: rgba(152, 16, 250, 0.20);
+  filter: blur(80px);
+  border-radius: var(--radius-full);
+  transition: background 0.5s ease, height 0.5s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ── Backdrop blur glass card ─────────────────────────────────────────── */
+/* Source: testimonial cards use backdrop-filter: blur(12px)              */
+.blur-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── 3D perspective containers ────────────────────────────────────────── */
+/* Source: flip cards use perspective: 1000px; showcase grid uses 2000px  */
+.perspective-sm { perspective: var(--perspective-card, 1000px); }
+.perspective-lg { perspective: var(--perspective-grid, 2000px); }
+
+/* ── Galeria gradient overlay — backdrop + black fade on gallery section ─ */
+/* Source: galeria section bg: gradient-to-b from-black/30 via-black      */
+.gallery-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom,
+    rgba(0,0,0,0.30),
+    #000000 250px,
+    #000000
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── Keyframes: marquee / ticker ─────────────────────────────────────── */
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── Animation utility classes ────────────────────────────────────────── */
+.animate-marquee-left  { animation: marqueeLeft  var(--marquee-speed-slow, 40s) linear infinite; }
+.animate-marquee-right { animation: marqueeRight var(--marquee-speed-slow, 40s) linear infinite; }
+.animate-ticker        { animation: marqueeLeft  var(--marquee-speed-ticker, 20s) linear infinite; }
+
+/* Pause on parent hover */
+.marquee-pause-on-hover:hover .animate-marquee-left,
+.marquee-pause-on-hover:hover .animate-marquee-right,
+.marquee-pause-on-hover:hover .animate-ticker {
+  animation-play-state: paused;
+}

@@ -1,0 +1,67 @@
+/* badges.css — Badge / pill components */
+/* Source: feature list items in hero "Sem prompts · Mais escala · Baixo custo" */
+/* and section labels observed in the original app */
+
+/* ── Base badge ────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-soft);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── Variant: Purple ───────────────────────────────────────────────────────── */
+/* rgba(147,51,234,0.15) → purple-600/20 = #9810fa33, border from purple-400/30 */
+.badge-purple {
+  background: rgba(152, 16, 250, 0.15);
+  border-color: rgba(172, 75, 255, 0.30);
+  color: var(--color-purple-light);
+}
+
+/* ── Variant: Outline ──────────────────────────────────────────────────────── */
+.badge-outline {
+  background: transparent;
+  border-color: var(--color-border-soft);
+  color: var(--color-text-muted);
+}
+
+/* ── Variant: White ────────────────────────────────────────────────────────── */
+.badge-white {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--color-border-soft);
+  color: var(--color-text);
+}
+
+/* ── Icon dot / status indicator ──────────────────────────────────────────── */
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Feature check item ────────────────────────────────────────────────────── */
+/* Pattern from hero: <div class="flex items-center gap-1 text-xs font-medium"> */
+.badge-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  .badge-check {
+    font-size: 13.5px;
+  }
+}

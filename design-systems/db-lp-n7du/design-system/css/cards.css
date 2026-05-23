@@ -1,0 +1,564 @@
+/* cards.css — Card variants */
+/* Source: hero image columns, feature grid, stats, testimonials in index.html */
+
+/* ── Card: Image — aspect 3/4 portrait ────────────────────────────────────── */
+/* Source: <div class="relative aspect-[3/4] w-full rounded-xl overflow-hidden  */
+/*           flex-shrink-0 border border-white/5 shadow-2xl">                 */
+.card-image {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: var(--radius-md);       /* rounded-xl = .75rem ≈ 12px */
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.4s ease, border-color 0.3s ease;
+  cursor: default;
+}
+
+.card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  color: transparent;
+}
+
+.card-image:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-purple);
+}
+
+/* ── Card: Feature — icon + title + description ────────────────────────────── */
+/* Used in funcionalidades / benefits grid */
+.card-feature {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-base);
+}
+
+.card-feature:hover {
+  border-color: var(--color-border-soft);
+  box-shadow: var(--shadow-glow);
+}
+
+.card-feature-icon {
+  color: var(--color-purple);
+  margin-bottom: var(--space-4);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.card-feature-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  line-height: var(--line-height-tight);
+}
+
+.card-feature-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-base);
+  flex: 1;
+}
+
+/* ── Card: Builder / Person ────────────────────────────────────────────────── */
+/* Profile card used in "Builders" section */
+.card-builder {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  transition: var(--transition-base);
+}
+
+.card-builder:hover {
+  border-color: var(--color-border-soft);
+  box-shadow: var(--shadow-glow);
+}
+
+.card-builder-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--color-border-soft);
+}
+
+.card-builder-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-builder-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.card-builder-role {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ── Card: Stat — metric + label ───────────────────────────────────────────── */
+/* Used in resultados / prova social section */
+.card-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+}
+
+.card-stat-number {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-regular);
+}
+
+/* ── Card: Testimonial — quote + author ────────────────────────────────────── */
+.card-testimonial {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: var(--transition-base);
+}
+
+.card-testimonial:hover {
+  border-color: var(--color-border-soft);
+}
+
+.card-testimonial-quote {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: var(--line-height-body);
+  flex: 1;
+}
+
+.card-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.card-testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-soft);
+}
+
+.card-testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-testimonial-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.card-testimonial-role {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* ── Parallax column wrappers ──────────────────────────────────────────────── */
+/* Source: hero section has 3 image columns in a flex row                     */
+/* .col-fast: outer columns — JS animates at var(--parallax-speed-fast) = 0.6× */
+/* .col-slow: center column — JS animates at var(--parallax-speed-slow) = 0.3× */
+/* Original widths: outer cols ≈ 32vw, center col ≈ 25vw                     */
+/* Usage: initParallax({ fastSelector: '.col-fast', fastSpeed: 0.6,           */
+/*                        slowSelector: '.col-slow', slowSpeed: 0.3 })         */
+
+.col-fast,
+.col-slow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+/* Outer columns (fast) — wider */
+.col-fast { width: 32vw; max-width: 320px; }
+
+/* Center column (slow) — narrower, starts offset down for visual depth */
+.col-slow  { width: 25vw; max-width: 250px; transform: translateY(10%); }
+
+/* All images inside parallax columns */
+.col-fast .card-image,
+.col-slow .card-image {
+  height: auto;           /* let aspect-ratio 3/4 drive the height */
+}
+
+/* 50vh spacer between image groups for breathing room during parallax scroll */
+.col-gap-spacer {
+  height: 50vh;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .col-fast,
+  .col-slow {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 767px) {
+  .col-fast { width: 45vw; }
+  .col-slow  { width: 38vw; }
+}
+
+/* ── Card: Testimonial Glass — glassmorphism testimonial ──────────────── */
+/* Source: resultados section testimonial cards                            */
+/* backdrop-filter: blur(12px); bg: rgba(255,255,255,0.05); border: 10%  */
+.card-testimonial-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10);         /* 40px — md variant */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 380px;
+  min-width: 380px;
+  transition: background-color 0.3s ease;
+}
+
+.card-testimonial-glass:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.card-testimonial-glass-quote {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+}
+
+.card-testimonial-glass-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.card-testimonial-glass-avatar {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: linear-gradient(to bottom right, var(--color-purple-light), var(--color-purple-dark));
+  border: 1px solid rgba(192, 126, 255, 0.30);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.card-testimonial-glass-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.card-testimonial-glass-handle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  opacity: 0.7;
+}
+
+@media (max-width: 767px) {
+  .card-testimonial-glass {
+    width: 85vw;
+    min-width: 85vw;
+    padding: var(--space-6);
+  }
+}
+
+/* ── Card: Bento — large builder/profile card with image ──────────────── */
+/* Source: builders section main card (col-span-3, row-span-2)            */
+/* rounded-[2.5rem], bg-[#0d0d0e], overflow-hidden, min-h-[480px]        */
+.card-bento {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--bento-radius, 40px);
+  border: 1px solid var(--color-border);
+  background: #0d0d0e;
+  min-height: 480px;
+  transition: border-color 0.3s ease;
+}
+
+.card-bento:hover {
+  border-color: var(--color-border-soft);
+}
+
+.card-bento img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease-out;
+}
+
+.card-bento:hover img {
+  transform: scale(1.05);
+}
+
+.card-bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.5) 40%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Backdrop blur layer — bottom 60% with mask fade */
+.card-bento-blur {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 60%;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);
+  mask-image: linear-gradient(to top, black 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.card-bento-content {
+  position: absolute;
+  bottom: var(--space-8);
+  left: var(--space-8);
+  right: var(--space-8);
+  text-align: left;
+}
+
+.card-bento-title {
+  font-size: 2.5rem;         /* md:text-4xl / lg:text-5xl */
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+}
+
+.card-bento-desc {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  max-width: 384px;
+}
+
+/* Small bento variant (col-span-1, row-span-1) */
+.card-bento-sm {
+  border-radius: var(--bento-radius-sm, 32px);
+  min-height: 220px;
+}
+
+.card-bento-sm .card-bento-title {
+  font-size: var(--font-size-xl);   /* smaller on compact cards */
+}
+
+/* ── Card: Showcase — tall image card with bottom blur + glow ─────────── */
+/* Source: funcionalidades / features grid 3-column cards                  */
+/* rounded-[32px] h-[480px] backdrop-blur-sm hover:-translate-y-2         */
+.card-showcase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  height: 480px;
+  transition: all 0.5s ease;
+}
+
+.card-showcase:hover {
+  border-color: rgba(255, 255, 255, 0.20);
+  transform: translateY(-8px);
+}
+
+.card-showcase img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.7s ease;
+  z-index: 0;
+}
+
+.card-showcase:hover img {
+  transform: scale(1.10);
+}
+
+.card-showcase-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(0, 0, 0, 0.90),
+    rgba(0, 0, 0, 0.30),
+    transparent
+  );
+  z-index: 10;
+  pointer-events: none;
+}
+
+.card-showcase-blur {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 50%;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.card-showcase-glow {
+  position: absolute;
+  bottom: -96px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 66%;
+  height: 192px;
+  background: rgba(152, 16, 250, 0.20);
+  filter: blur(80px);
+  border-radius: var(--radius-full);
+  transition: background 0.5s ease, height 0.5s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.card-showcase:hover .card-showcase-glow {
+  background: rgba(152, 16, 250, 0.30);
+  height: 256px;
+}
+
+.card-showcase-content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-10);
+  text-align: center;
+  margin-top: auto;
+}
+
+.card-showcase-title {
+  font-size: 1.3rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--space-3);
+}
+
+.card-showcase-desc {
+  max-width: 240px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.90);
+  font-weight: var(--font-weight-light);
+}
+
+/* ── Card: Flip — 3D perspective flip on hover ────────────────────────── */
+/* Source: authority section cards with logo front, text back              */
+/* perspective: 1000px; backface-visibility: hidden                        */
+.card-flip-scene {
+  perspective: var(--perspective-card, 1000px);
+}
+
+.card-flip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  cursor: pointer;
+}
+
+.card-flip:hover,
+.card-flip-scene:hover .card-flip {
+  transform: rotateY(180deg);
+}
+
+.card-flip-front,
+.card-flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-flip-front {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.card-flip-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(to bottom right,
+    rgba(172, 75, 255, 0.40),
+    rgba(152, 16, 250, 0.30),
+    rgba(110, 17, 176, 0.50)
+  );
+  border: 2px solid rgba(255, 255, 255, 0.20);
+  padding: var(--space-6);
+  text-align: center;
+  flex-direction: column;
+  gap: var(--space-3);
+}

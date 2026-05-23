@@ -1,0 +1,164 @@
+/* marquee.css — Scrolling marquee tracks and ticker strip */
+/* Source: galeria image rows + resultados purple ticker               */
+
+/* ── Marquee wrapper — clips overflow + adds edge fade masks ─────────── */
+.marquee-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Left/right gradient fade edges */
+.marquee-wrap::before,
+.marquee-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 192px;           /* md:w-48 */
+  z-index: 10;
+  pointer-events: none;
+}
+
+.marquee-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, #000000, transparent);
+}
+
+.marquee-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, #000000, transparent);
+}
+
+/* Narrow mask variant (80px — observed at mobile width) */
+.marquee-wrap-sm::before,
+.marquee-wrap-sm::after {
+  width: 80px;
+}
+
+/* ── Marquee track — continuous scrolling strip ──────────────────────── */
+/* Contains duplicated children to loop seamlessly (set width to 200%)    */
+.marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+}
+
+.marquee-track-left {
+  animation: marqueeLeft var(--marquee-speed-slow, 40s) linear infinite;
+}
+
+.marquee-track-right {
+  animation: marqueeRight var(--marquee-speed-slow, 40s) linear infinite;
+}
+
+/* ── Galeria row — a marquee row of image cards ──────────────────────── */
+/* Source: galeria section image rows (two rows, alternating direction)   */
+.gallery-row {
+  display: flex;
+  width: max-content;
+  align-items: flex-end;
+  gap: 12px;              /* gap-3 */
+  padding-right: 16px;    /* pr-4 */
+}
+
+@media (min-width: 768px) {
+  .gallery-row { gap: 16px; }  /* md:gap-4 */
+}
+
+/* Gallery image card inside marquee */
+.gallery-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  width: 128px;           /* w-32 */
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);  /* rounded-lg */
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@media (min-width: 768px) {
+  .gallery-card {
+    width: 320px;          /* md:w-80 */
+    border-radius: var(--radius-md);  /* md:rounded-xl */
+  }
+}
+
+.gallery-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  color: transparent;
+}
+
+/* ── Gallery rows container ──────────────────────────────────────────── */
+.gallery-rows {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 24px;              /* gap-6 */
+}
+
+@media (min-width: 768px) {
+  .gallery-rows { gap: 48px; }  /* md:gap-12 */
+}
+
+/* ── Ticker strip — solid purple bottom bar ──────────────────────────── */
+/* Source: bottom of #resultados section                                  */
+/* bg: #9333ea; padding: 40px 0; font: 900 1.5rem / 0.2em uppercase     */
+.ticker {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--ticker-bg, var(--color-purple));
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-10);
+  margin-top: auto;
+}
+
+.ticker-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-24);      /* gap: 96px */
+  padding-left: var(--space-16);
+  width: max-content;
+  min-width: max-content;
+  flex-shrink: 0;
+  animation: marqueeLeft var(--marquee-speed-ticker, 20s) linear infinite;
+}
+
+.ticker-item {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: var(--ticker-font-size, 1.5rem);
+  font-weight: var(--ticker-font-weight, 900);
+  letter-spacing: var(--ticker-letter-spacing, 0.2em);
+  text-transform: uppercase;
+}
+
+.ticker-item-light { color: var(--color-text); }
+.ticker-item-dark  { color: #000000; }
+
+/* Separator dot between ticker items */
+.ticker-sep {
+  flex-shrink: 0;
+  font-size: var(--ticker-font-size, 1.5rem);
+  font-weight: var(--ticker-font-weight, 900);
+  color: rgba(0, 0, 0, 0.30);
+}
+
+/* ── Keyframes (canonical source — also referenced in effects.css) ───── */
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}

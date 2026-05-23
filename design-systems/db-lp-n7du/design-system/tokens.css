@@ -1,0 +1,210 @@
+:root {
+  /* ── Colors ────────────────────────────────────────────────────────────── */
+  /* Exact values extracted from #05000a background, #0d0d0e surface,        */
+  /* Tailwind purple-500 = #ac4bff, purple-600 = #9810fa, purple-800 = #6e11b0 */
+  --color-bg: #05000a;
+  --color-surface: #0d0d0e;
+  --color-surface-alt: #111111;
+  --color-purple: #9333ea;
+  --color-purple-light: #ac4bff;
+  --color-purple-dark: #6e11b0;
+  --color-purple-vivid: #9810fa;
+  --color-purple-400: #c07eff;
+  --color-fuchsia: #c600db;
+  --color-indigo-dark: #312c85;
+  --color-text: #ffffff;
+  --color-text-muted: #9e9e9e;
+  --color-text-muted-alt: #71717a;
+  --color-border: rgba(255, 255, 255, 0.05);
+  --color-border-soft: rgba(255, 255, 255, 0.10);
+  --color-border-medium: rgba(255, 255, 255, 0.20);
+  --color-zinc-900: #18181b;
+
+  /* ── Typography ─────────────────────────────────────────────────────────── */
+  /* Inter loaded from /assets/fonts/s.p.0q-301v4kxxnr.woff2                 */
+  --font-family: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+
+  /* Font sizes — pixel values observed in HTML inline styles + Tailwind scale */
+  --font-size-xs: 13px;       /* badges, labels (md:text-[13px] / text-[13.5px]) */
+  --font-size-sm: 14px;       /* captions, secondary text */
+  --font-size-base: 15px;     /* nav links, body text (md:text-[15px]) */
+  --font-size-md: 18px;       /* body large (md:text-[18px]) */
+  --font-size-lg: 24px;       /* card titles (text-2xl = 1.5rem) */
+  --font-size-xl: 32px;       /* section headings (text-3xl approx) */
+  --font-size-2xl: 48px;      /* hero headings (md:text-[2.5rem] ~ lg:text-[3rem]) */
+
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-base: 1.625;  /* leading-relaxed */
+  --line-height-body: 1.7;    /* leading-[1.7] used in sections */
+
+  /* Letter spacing */
+  --letter-spacing-tight: -0.025em;   /* tracking-tight */
+  --letter-spacing-tighter: -0.05em;  /* tracking-tighter */
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ── Spacing — 4px base scale ──────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ── Border radius ──────────────────────────────────────────────────────── */
+  --radius-sm: 8px;       /* rounded-lg = .5rem */
+  --radius-md: 12px;      /* rounded-xl = .75rem */
+  --radius-lg: 16px;      /* rounded-2xl = 1rem */
+  --radius-xl: 20px;      /* nav bar + cards: 20px / border-radius: 2rem */
+  --radius-2xl: 24px;     /* rounded-3xl = 1.5rem */
+  --radius-full: 9999px;  /* rounded-full — pills */
+
+  /* ── Effects ────────────────────────────────────────────────────────────── */
+  --blur-glass: blur(20px);
+  --blur-glow: blur(80px);
+
+  /* Shadows */
+  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.4);       /* shadow-2xl */
+  --shadow-sm: 0 0 10px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(147, 51, 234, 0.3);
+  --shadow-glow-white: 0 0 40px -10px rgba(255, 255, 255, 0.4);
+  --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  /* Gradients */
+  --gradient-text: linear-gradient(135deg, #ac4bff 0%, #9810fa 50%, #6e11b0 100%);
+  --gradient-text-alt: linear-gradient(135deg, #ffffff 0%, #c07eff 100%);
+  --gradient-purple-glow: linear-gradient(to bottom right, rgba(172, 75, 255, 0.4), transparent, rgba(110, 17, 176, 0.5));
+  --gradient-bg-fade: linear-gradient(to bottom, #05000a, #000000);
+  --gradient-shimmer: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+
+  /* Transitions */
+  --transition-base: all 0.3s ease;
+  --transition-colors: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  --transition-smooth: transform 0.6s cubic-bezier(0.25, 1, 0.30, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.30, 1);
+  --transition-reveal: opacity 0.7s ease, transform 0.7s ease;
+  --transition-fast: all 0.15s ease;
+
+  /* ── Easing functions — named cubic-bezier curves ──────────────────────── */
+  /* --ease-smooth: used on nav hide/show, parallax, premium element movement */
+  --ease-smooth:  cubic-bezier(0.25, 1, 0.30, 1);
+  /* --ease-spring: slight overshoot for card hovers, CTA interactions        */
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* --ease-out:   standard deceleration for reveals and fade-ins              */
+  --ease-out:     cubic-bezier(0.0, 0.0, 0.2, 1);
+  /* --ease-in-out: symmetric for shimmer and looping animations               */
+  --ease-in-out:  cubic-bezier(0.4, 0.0, 0.6, 1);
+
+  /* ── Motion — behavior tokens (used by JS utilities) ──────────────────── */
+  /* Parallax speed ratios — applied by js/parallax.js                        */
+  --parallax-speed-fast: 0.6;   /* .col-fast columns: 0.6× scroll speed      */
+  --parallax-speed-slow: 0.3;   /* .col-slow columns: 0.3× scroll speed      */
+
+  /* Scroll reveal — used by js/scroll-reveal.js                              */
+  --reveal-stagger:    80ms;    /* delay increment between sibling reveals    */
+  --reveal-threshold:  0.15;    /* IntersectionObserver ratio to trigger      */
+  --reveal-root-margin: 0px 0px -40px 0px; /* pre-fire before edge           */
+  --reveal-duration:   0.7s;    /* matches --transition-reveal opacity+translateY */
+  --reveal-offset:     24px;    /* initial translateY before reveal           */
+
+  /* Nav scroll behavior — used by js/nav-behavior.js                         */
+  --nav-hide-threshold: 100px;  /* px scrolled before nav hides              */
+  --nav-active-threshold: 0.5;  /* IntersectionObserver ratio for active link */
+  --lenis-duration: 1.2;        /* Lenis scroll duration multiplier           */
+
+  /* ── Icon scale ─────────────────────────────────────────────────────────── */
+  --icon-xs:  12px;   /* inline text icons, star ratings                     */
+  --icon-sm:  16px;   /* nav icons, badge icons (lucide size)                 */
+  --icon-md:  24px;   /* card feature icons, section icons                   */
+  --icon-lg:  40px;   /* hero feature list icons, large UI icons             */
+
+  /* ── Grid pattern overlay ────────────────────────────────────────────────── */
+  /* Used in hero section and CTA backgrounds                                  */
+  --grid-pattern-size:    60px;  /* background-size for the grid lines        */
+  --grid-pattern-opacity: 0.10;  /* rgba white opacity for each grid line     */
+  --grid-pattern-mask:    radial-gradient(ellipse 55% 70% at 50% 50%, black 40%, transparent 80%);
+  /* Muted variant (builders/funcionalidades/resultados: 4% opacity)           */
+  --grid-pattern-opacity-muted: 0.04;
+  --grid-pattern-mask-builders: radial-gradient(ellipse 60% 50% at 50% 30%, black 30%, transparent 80%);
+
+  /* ── Section z-index scale ───────────────────────────────────────────────── */
+  /* Source: sticky scroll stacking system in original page                    */
+  /* z-0: hero (sticky), z-20: galeria, z-30: content sections, z-[999]: auth */
+  --z-hero:      0;
+  --z-galeria:   20;
+  --z-content:   30;
+  --z-authority: 999;
+  --z-nav:       9999;
+
+  /* ── 3D perspective — flip cards / showcase grid ─────────────────────────── */
+  --perspective-card: 1000px;  /* flip cards */
+  --perspective-grid: 2000px;  /* showcase grid */
+
+  /* ── Bento grid ──────────────────────────────────────────────────────────── */
+  /* Source: builders section uses rounded-[2.5rem] and rounded-[2rem]         */
+  --bento-radius:    40px;   /* rounded-[2.5rem] — large bento card           */
+  --bento-radius-sm: 32px;   /* rounded-[2rem] — small bento card             */
+
+  /* ── Marquee / ticker animation timing ───────────────────────────────────── */
+  --marquee-speed-slow:   40s;   /* galeria image rows (slow drift)           */
+  --marquee-speed-normal: 25s;
+  --marquee-speed-fast:   15s;
+  --marquee-speed-ticker: 20s;   /* purple ticker strip at resultados bottom  */
+
+  /* ── Ticker strip ────────────────────────────────────────────────────────── */
+  /* Source: purple bar at bottom of resultados section                        */
+  --ticker-bg:             #9333ea;  /* same as --color-purple                */
+  --ticker-font-size:      1.5rem;   /* text-2xl                              */
+  --ticker-font-weight:    900;
+  --ticker-letter-spacing: 0.2em;
+
+  /* ── Feature gallery panel ───────────────────────────────────────────────── */
+  /* Source: funcionalidades section expand-on-hover accordion                 */
+  --feat-gallery-height: 550px;
+  --feat-copy-gradient:  linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 55%, transparent 100%);
+
+  /* ── Section safe areas ──────────────────────────────────────────────────── */
+  --section-px-mobile:  16px;   /* mobile section padding-inline              */
+  --section-px-desktop: 32px;   /* md:px-8 = 32px                             */
+
+  /* ── Hero responsive scale ──────────────────────────────────────────────── */
+  /* Applied to image column groups via transform: scale(var(--hero-scale))   */
+  /* Observed in original: column wrappers scale down at wide viewports        */
+  --hero-scale: 1;   /* mobile baseline, overridden by @media below           */
+
+  /* ── Breakpoints (reference only — cannot use in @media rules directly) ─── */
+  /* Use these values in your own @media queries to stay consistent:           */
+  /*   --bp-sm:   480px  — small mobile                                       */
+  /*   --bp-md:   768px  — tablet / mobile breakpoint                         */
+  /*   --bp-lg:   1024px — desktop nav / grid breakpoint                      */
+  /*   --bp-xl:   1366px — large desktop, hero scale reduces                  */
+  /*   --bp-2xl:  1599px — very large desktop, hero scale reduces further      */
+  /*   --bp-max:  1400px — nav and container max-width                         */
+}
+
+/* ── Hero scale responsive system ───────────────────────────────────────── */
+/* Observed in original: image columns scale down on wider viewports          */
+/* Apply with: transform: scale(var(--hero-scale)) on column groups           */
+@media (min-width: 1024px) {
+  :root { --hero-scale: 0.9; }
+}
+@media (min-width: 1366px) {
+  :root { --hero-scale: 0.8; }
+}
+@media (min-width: 1599px) {
+  :root { --hero-scale: 0.7; }
+}

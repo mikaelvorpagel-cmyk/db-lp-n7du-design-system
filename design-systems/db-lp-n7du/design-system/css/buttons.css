@@ -1,0 +1,132 @@
+/* buttons.css — Button variants */
+/* Source: hero CTA "ENTRE NA LISTA DE ESPERA" + nav-cta in index.html */
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: var(--transition-base);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+  text-align: center;
+}
+
+/* ── Default size (no modifier) — 14px 24px matching nav-cta ──────────────── */
+.btn {
+  padding: 14px var(--space-6);
+  font-size: var(--font-size-base);
+}
+
+/* ── Size modifiers ────────────────────────────────────────────────────────── */
+.btn-lg {
+  padding: var(--space-4) var(--space-8);  /* 16px 32px — hero CTA */
+  font-size: var(--font-size-md);
+}
+
+.btn-md {
+  padding: 14px var(--space-6);            /* 14px 24px — nav CTA */
+  font-size: var(--font-size-base);
+}
+
+.btn-sm {
+  padding: 10px 18px;
+  font-size: var(--font-size-sm);
+}
+
+/* ── Variant: Primary — white background, black text ──────────────────────── */
+/* Source: "background-color: white; color: black" in hero CTA + nav-cta     */
+.btn-primary {
+  background: var(--color-text);
+  color: #000000;
+}
+
+.btn-primary:hover {
+  background: #f3f4f6;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-glow-white);
+}
+
+/* ── Variant: Purple — accent ─────────────────────────────────────────────── */
+.btn-purple {
+  background: var(--color-purple);
+  color: var(--color-text);
+}
+
+.btn-purple:hover {
+  background: var(--color-purple-vivid);
+  transform: scale(1.02);
+}
+
+/* ── Variant: Outline — transparent with border ───────────────────────────── */
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-soft);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-purple-light);
+  color: var(--color-purple-light);
+}
+
+/* ── Variant: Shimmer — animated shine diagonal ────────────────────────────── */
+/* Source: hero CTA uses a skewed gradient div overlaid for shine effect      */
+.btn-shimmer {
+  background: var(--color-text);
+  color: #000000;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 50%;
+  background: var(--gradient-shimmer);
+  transform: skewX(-25deg) translateX(-200%);
+  animation: shimmer 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.btn-shimmer > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-shimmer:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-glow-white);
+}
+
+/* ── Focus-visible — keyboard navigation states ────────────────────────────── */
+/* Source: original has no explicit focus ring, but a11y requires it           */
+.btn:focus-visible {
+  outline: 2px solid var(--color-purple-light);
+  outline-offset: 3px;
+}
+
+.btn-primary:focus-visible {
+  outline-color: var(--color-purple);
+}
+
+/* ── Keyframe: shimmer sweep ───────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    transform: skewX(-25deg) translateX(-200%);
+  }
+  60%, 100% {
+    transform: skewX(-25deg) translateX(400%);
+  }
+}

@@ -1,0 +1,276 @@
+/* layout.css — Compositional layout primitives */
+/* Inspired by Every Layout: intrinsically responsive, minimal media queries   */
+/* All primitives expose CSS custom properties for per-instance configuration  */
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* CONTAINER — max-width wrapper                                               */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="container"> wraps content with horizontal padding          */
+/* Variants: .container-sm (640px) .container-md (860px) .container-xl (1400px) */
+
+.container {
+  max-width: var(--container-max, 1100px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  width: 100%;
+}
+
+.container-sm { --container-max: 640px;  }
+.container-md { --container-max: 860px;  }
+.container-lg { --container-max: 1100px; }
+.container-xl { --container-max: 1400px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* SECTION — vertical padding for page sections                                */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <section class="section"> adds consistent top/bottom breathing room    */
+
+.section     { padding-block: var(--section-pad, var(--space-20)); }
+.section-sm  { --section-pad: var(--space-12); }
+.section-lg  { --section-pad: 120px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* STACK — vertical flex column with consistent gap between children           */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="stack"> — children receive uniform vertical spacing        */
+/* Override gap: <div class="stack stack-8"> or style="--stack-gap: 40px"     */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-6));
+}
+
+.stack-2  { --stack-gap: var(--space-2);  }
+.stack-3  { --stack-gap: var(--space-3);  }
+.stack-4  { --stack-gap: var(--space-4);  }
+.stack-8  { --stack-gap: var(--space-8);  }
+.stack-12 { --stack-gap: var(--space-12); }
+.stack-16 { --stack-gap: var(--space-16); }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* CLUSTER — horizontal flex wrap (badges, buttons, tags, links)               */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="cluster"> — children wrap horizontally and are centered    */
+/* Items stay horizontal until they can't fit; then wrap cleanly               */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cluster-gap, var(--space-4));
+  align-items: center;
+}
+
+.cluster-center  { justify-content: center; }
+.cluster-end     { justify-content: flex-end; }
+.cluster-between { justify-content: space-between; }
+.cluster-start   { justify-content: flex-start; }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* GRID — responsive CSS Grid without hardcoded breakpoints                    */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="grid"> — columns auto-fit based on --grid-min              */
+/* No @media needed: columns collapse when they can't fit at minimum width     */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 280px), 100%), 1fr));
+  gap: var(--grid-gap, var(--space-6));
+}
+
+/* Named column counts — still collapse on mobile via min() trick */
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+  --grid-min: 320px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+  --grid-min: 240px;
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+  --grid-min: 200px;
+}
+
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* SWITCHER — horizontal until threshold, then stacks vertically               */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="switcher"> — layout flips at --switch-threshold            */
+/* No @media: switching is intrinsic based on available container width        */
+
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--switch-gap, var(--space-8));
+}
+
+.switcher > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--switch-threshold, 640px) - 100%) * 999);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* COVER — min-height section with vertically centered content                 */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <section class="cover"> — content is centered vertically in viewport   */
+/* All children get auto margins; only the "main" child truly centers          */
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--cover-height, 100vh);
+  padding-block: var(--space-16);
+}
+
+.cover > * { margin-block: auto; }
+
+.cover-80 { --cover-height: 80vh; }
+.cover-60 { --cover-height: 60vh; }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* SIDEBAR LAYOUT — content area + fixed-width sidebar                         */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="sidebar-layout"> with exactly 2 children                   */
+/* First child = sidebar (fixed width), last child = main content (fills rest) */
+/* Wraps to stacked layout when content would be narrower than --content-min   */
+
+.sidebar-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sidebar-gap, var(--space-8));
+}
+
+.sidebar-layout > :first-child {
+  flex-basis: var(--sidebar-width, 280px);
+  flex-grow: 1;
+}
+
+.sidebar-layout > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content-min, 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* HERO SPLIT — two-column hero (content left, visual right)                   */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <section class="hero-split"> with 2 children: text column + image col  */
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+  min-height: 100vh;
+  padding-block: var(--space-20);
+}
+
+.hero-split-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.hero-split-visual {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .hero-split {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: var(--space-16);
+  }
+  .hero-split-visual { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* COLUMN GRID — 3-column parallax image grid                                  */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="col-grid"> with 3 children (column wrappers)               */
+/* Each column contains stacked images; JS animates at different scroll speeds */
+
+.col-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  overflow: hidden;
+}
+
+.col-grid > * {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.col-grid img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  aspect-ratio: 3 / 4;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* MASONRY — CSS column-based masonry (no JS required)                         */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Use: <div class="masonry"> — items flow into columns, breaking at word end  */
+
+.masonry {
+  columns: var(--masonry-cols, 3);
+  column-gap: var(--space-4);
+}
+
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--space-4);
+  display: block;
+}
+
+@media (max-width: 768px) { .masonry { columns: 2; } }
+@media (max-width: 480px) { .masonry { columns: 1; } }
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* LAYOUT UTILITIES                                                             */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.mt-auto  { margin-top: auto; }
+.mb-auto  { margin-bottom: auto; }
+.ml-auto  { margin-left: auto; }
+.mr-auto  { margin-right: auto; }
+.mx-auto  { margin-inline: auto; }
+
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+
+.w-full      { width: 100%; }
+.h-full      { height: 100%; }
+
+.relative    { position: relative; }
+.overflow-h  { overflow: hidden; }
+
+/* Flex helpers */
+.flex        { display: flex; }
+.flex-col    { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.items-start  { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-1      { flex: 1; }
+.flex-wrap   { flex-wrap: wrap; }
